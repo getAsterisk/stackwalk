@@ -8,8 +8,8 @@
       "node_key": "test-code-base/main2.py.main",
       "outgoing_calls": [
         "test-code-base/main2.py.print",
-        "test-code-base/main2.py.c.add",
-        "test-code-base/main2.py.Calc"
+        "test-code-base/calc2.py.Calc",
+        "test-code-base/main2.py.c.add"
       ]
     },
     {
@@ -75,9 +75,9 @@
       "function_name": "main",
       "node_key": "test-code-base/main.py.main",
       "outgoing_calls": [
-        "test-code-base/main.py.print",
+        "test-code-base/calc1.py.Calc",
         "test-code-base/main.py.c.add",
-        "test-code-base/main.py.Calc"
+        "test-code-base/main.py.print"
       ]
     },
     {
@@ -117,9 +117,9 @@
       },
       "test-code-base/main.py.main": {
         "children": [
-          "test-code-base/main.py.print",
+          "test-code-base/calc1.py.Calc",
           "test-code-base/main.py.c.add",
-          "test-code-base/main.py.Calc"
+          "test-code-base/main.py.print"
         ],
         "class_name": null,
         "file_path": "test-code-base/main.py",
@@ -128,8 +128,8 @@
       "test-code-base/main2.py.main": {
         "children": [
           "test-code-base/main2.py.print",
-          "test-code-base/main2.py.c.add",
-          "test-code-base/main2.py.Calc"
+          "test-code-base/calc2.py.Calc",
+          "test-code-base/main2.py.c.add"
         ],
         "class_name": null,
         "file_path": "test-code-base/main2.py",

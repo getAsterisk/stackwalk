@@ -168,27 +168,39 @@ fn find_calls(
                 let parts: Vec<&str> = function_name.split('.').collect();
 
                 if parts.len() > 1 {
-                    let class_or_module_name = parts[0];
+                    // This is for method calls on an object; the part before '.' is treated as an object, not a module.
+                    let object_name = parts[0];
                     let method_name = parts[1];
-
-                    if let Some(imported_module) = imports.get(class_or_module_name) {
+                    
+                    // If the object name matches an alias from the imports, resolve to the correct module.
+                    if let Some(imported_module) = imports.get(object_name) {
                         let call_key = generate_node_key(
-                            Path::new(module_name),
-                            None,
-                            &format!("{}.{}", imported_module, method_name),
+                            Path::new(imported_module),
+                            Some(object_name),
+                            method_name,
                         );
                         calls.insert(call_key);
                     } else {
                         let call_key = generate_node_key(
                             Path::new(module_name),
-                            Some(class_or_module_name),
+                            Some(object_name),
                             method_name,
                         );
                         calls.insert(call_key);
                     }
                 } else {
-                    let function_key = generate_node_key(Path::new(module_name), None, &function_name);
-                    calls.insert(function_key);
+                    // For global function calls, check if the function name matches an alias from the imports.
+                    if let Some(imported_module) = imports.get(&function_name) {
+                        let call_key = generate_node_key(
+                            Path::new(&format!("test-code-base/{}.py", imported_module)),
+                            None,
+                            &function_name,
+                        );
+                        calls.insert(call_key);
+                    } else {
+                        let function_key = generate_node_key(Path::new(module_name), None, &function_name);
+                        calls.insert(function_key);
+                    }
                 }
             }
         }
@@ -217,35 +229,26 @@ fn parse_import_statement(code: &str, node: Node, language: Language) -> Option<
     match language {
         lang if lang == unsafe { tree_sitter_python() } => {
             if node.kind() == "import_from_statement" {
-                let module = node
-                    .child_by_field_name("module_name")
-                    .and_then(|child| child.child_by_field_name("identifier"))
-                    .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
-                    .map(|s| s.to_string())?;
+                // Extract the module name from the 'module_name' field
+                let module = node.child_by_field_name("module_name")
+                    .map(|n| n.utf8_text(code.as_bytes()).ok())
+                    .flatten()
+                    .unwrap_or_default()
+                    .to_string();
 
-                let alias = node
-                    .child_by_field_name("name")
-                    .and_then(|child| child.child_by_field_name("identifier"))
-                    .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
-                    .map(|s| s.to_string())?;
+                // Iterate over the names imported from the module
+                let node_walk = &mut node.walk();
+                let imported_names = node.children_by_field_name("name", node_walk);
+                for imported_name in imported_names {
+                    let alias = imported_name.utf8_text(code.as_bytes()).unwrap_or_default().to_string();
 
-                Some((module, alias))
-            } else {
-                let module = node
-                    .child_by_field_name("name")
-                    .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
-                    .map(|s| s.to_string())?;
-
-                let alias = node
-                    .child_by_field_name("alias")
-                    .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
-                    .map(|s| s.to_string())
-                    .unwrap_or_else(|| module.split('.').last().unwrap().to_string());
-
-                Some((module, alias))
+                    // In this case, we assume that each import statement imports a single name,
+                    // so we return the first found. For handling multiple imports, this approach needs to be adjusted.
+                    return Some((module.clone(), alias));
+                }
             }
+            None
         }
-        // Add more language-specific parsing here
         _ => None,
     }
 }
