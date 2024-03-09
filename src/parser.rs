@@ -1,5 +1,5 @@
 use crate::block::{Block, BlockType};
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::path::Path;
 use tree_sitter::{Language, Node, Parser};
@@ -19,6 +19,7 @@ pub fn parse_file(file_path: &Path) -> Vec<Block> {
 
     let mut blocks = Vec::new();
     let mut non_function_blocks = Vec::new();
+    let mut imports = HashMap::new();
     let mut cursor = tree.root_node().walk();
     traverse_tree(
         &code,
@@ -27,6 +28,7 @@ pub fn parse_file(file_path: &Path) -> Vec<Block> {
         &mut non_function_blocks,
         language,
         None,
+        &mut imports,
     );
 
     if !non_function_blocks.is_empty() {
@@ -62,9 +64,16 @@ fn traverse_tree(
     non_function_blocks: &mut Vec<String>,
     language: Language,
     class_name: Option<String>,
+    imports: &mut HashMap<String, String>,
 ) {
     let node = cursor.node();
     let kind = node.kind();
+
+    if is_import_statement(kind, language) {
+        if let Some((module, alias)) = parse_import_statement(code, node, language) {
+            imports.insert(alias, module);
+        }
+    }
 
     if is_class_definition(kind, language) {
         // Extract class name
@@ -85,6 +94,7 @@ fn traverse_tree(
                         non_function_blocks,
                         language,
                         Some(extracted_class_name.clone()),
+                        imports,
                     );
                     if !cursor.goto_next_sibling() {
                         break;
@@ -107,7 +117,7 @@ fn traverse_tree(
             class_name.clone(),
         );
 
-        block.outgoing_calls = find_calls(code, node, language);
+        block.outgoing_calls = find_calls(code, node, language, imports);
 
         blocks.push(block);
     } else if !node.is_named() {
@@ -125,6 +135,7 @@ fn traverse_tree(
                 non_function_blocks,
                 language,
                 class_name.clone(),
+                imports,
             );
             if !cursor.goto_next_sibling() {
                 break;
@@ -134,12 +145,22 @@ fn traverse_tree(
     }
 }
 
-fn find_calls(code: &str, root: Node, language: Language) -> Vec<String> {
+fn find_calls(code: &str, root: Node, language: Language, imports: &HashMap<String, String>) -> Vec<String> {
     let mut calls = HashSet::new();
     let mut cursor = root.walk();
 
     loop {
         let node = cursor.node();
+
+        if is_call_expression(node.kind(), language) {
+            if let Some(function_name) = get_call_expression_name(code, node, language) {
+                if let Some(module) = imports.get(&function_name) {
+                    calls.insert(format!("{}::{}", module, function_name));
+                } else {
+                    calls.insert(function_name);
+                }
+            }
+        }
 
         if is_call_expression(node.kind(), language) {
             if let Some(function_name) = get_call_expression_name(code, node, language) {
@@ -158,6 +179,35 @@ fn find_calls(code: &str, root: Node, language: Language) -> Vec<String> {
                 }
             }
         }
+    }
+}
+
+fn is_import_statement(kind: &str, language: Language) -> bool {
+    match language {
+        lang if lang == unsafe { tree_sitter_python() } => kind == "import_statement",
+        // Add more language-specific checks here
+        _ => false,
+    }
+}
+
+fn parse_import_statement(code: &str, node: Node, language: Language) -> Option<(String, String)> {
+    match language {
+        lang if lang == unsafe { tree_sitter_python() } => {
+            let module = node
+                .child_by_field_name("name")
+                .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
+                .map(|s| s.to_string())?;
+
+            let alias = node
+                .child_by_field_name("alias")
+                .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
+                .map(|s| s.to_string())
+                .unwrap_or_else(|| module.split('.').last().unwrap().to_string());
+
+            Some((module, alias))
+        }
+        // Add more language-specific parsing here
+        _ => None,
     }
 }
 

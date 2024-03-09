@@ -6,8 +6,8 @@
       "content": "def test_base16(self):\r\n        assert BaseCrack().decode('436865636B537472696E67')[0] == 'CheckString', \"Base16 test failed.\"",
       "function_name": "test_base16",
       "outgoing_calls": [
-        "BaseCrack",
-        "BaseCrack().decode"
+        "BaseCrack().decode",
+        "BaseCrack"
       ]
     },
     {
@@ -16,8 +16,8 @@
       "content": "def test_base32(self):\r\n        assert BaseCrack().decode('INUGKY3LKN2HE2LOM4======')[0] == 'CheckString', \"Base32 test failed.\"",
       "function_name": "test_base32",
       "outgoing_calls": [
-        "BaseCrack().decode",
-        "BaseCrack"
+        "BaseCrack",
+        "BaseCrack().decode"
       ]
     },
     {
@@ -36,8 +36,8 @@
       "content": "def test_base58(self):\r\n        assert BaseCrack().decode('HiVkR1foHM1ZXjk')[0] == 'CheckString', \"Base58 test failed.\"",
       "function_name": "test_base58",
       "outgoing_calls": [
-        "BaseCrack().decode",
-        "BaseCrack"
+        "BaseCrack",
+        "BaseCrack().decode"
       ]
     },
     {
@@ -46,8 +46,8 @@
       "content": "def test_base62(self):\r\n        assert BaseCrack().decode('6ZOc3cWz3dWiylL')[0] == 'CheckString', \"Base62 test failed.\"",
       "function_name": "test_base62",
       "outgoing_calls": [
-        "BaseCrack().decode",
-        "BaseCrack"
+        "BaseCrack",
+        "BaseCrack().decode"
       ]
     },
     {
@@ -56,8 +56,8 @@
       "content": "def test_base64(self):\r\n        assert BaseCrack().decode('Q2hlY2tTdHJpbmc=')[0] == 'CheckString', \"Base64 test failed.\"",
       "function_name": "test_base64",
       "outgoing_calls": [
-        "BaseCrack",
-        "BaseCrack().decode"
+        "BaseCrack().decode",
+        "BaseCrack"
       ]
     },
     {
@@ -76,8 +76,8 @@
       "content": "def test_ascii85(self):\r\n        assert BaseCrack().decode('6YL%@CK#=qBl7P')[0] == 'CheckString', \"ASCII85 test failed.\"",
       "function_name": "test_ascii85",
       "outgoing_calls": [
-        "BaseCrack().decode",
-        "BaseCrack"
+        "BaseCrack",
+        "BaseCrack().decode"
       ]
     },
     {
@@ -106,8 +106,8 @@
       "content": "def test_base92(self):\r\n        assert BaseCrack().decode('9c&KSm]a;#m/X(')[0] == 'CheckString', \"Base92 test failed.\"",
       "function_name": "test_base92",
       "outgoing_calls": [
-        "BaseCrack().decode",
-        "BaseCrack"
+        "BaseCrack",
+        "BaseCrack().decode"
       ]
     },
     {
@@ -156,8 +156,8 @@
       "content": "def test_base58(self):\r\n        assert BaseCrack().decode('HiVkR1foHM1ZXjk')[0] == 'CheckString', \"Base58 test failed.\"",
       "function_name": "test_base58",
       "outgoing_calls": [
-        "BaseCrack().decode",
-        "BaseCrack"
+        "BaseCrack",
+        "BaseCrack().decode"
       ]
     },
     {
@@ -176,8 +176,8 @@
       "content": "def test_base64(self):\r\n        assert BaseCrack().decode('Q2hlY2tTdHJpbmc=')[0] == 'CheckString', \"Base64 test failed.\"",
       "function_name": "test_base64",
       "outgoing_calls": [
-        "BaseCrack",
-        "BaseCrack().decode"
+        "BaseCrack().decode",
+        "BaseCrack"
       ]
     },
     {
@@ -206,8 +206,8 @@
       "content": "def test_base85(self):\r\n        assert BaseCrack().decode('Luh4VYg2S`X>Ml')[0] == 'CheckString', \"Base85 test failed.\"",
       "function_name": "test_base85",
       "outgoing_calls": [
-        "BaseCrack",
-        "BaseCrack().decode"
+        "BaseCrack().decode",
+        "BaseCrack"
       ]
     },
     {
@@ -226,8 +226,8 @@
       "content": "def test_base92(self):\r\n        assert BaseCrack().decode('9c&KSm]a;#m/X(')[0] == 'CheckString', \"Base92 test failed.\"",
       "function_name": "test_base92",
       "outgoing_calls": [
-        "BaseCrack().decode",
-        "BaseCrack"
+        "BaseCrack",
+        "BaseCrack().decode"
       ]
     },
     {
@@ -236,8 +236,8 @@
       "content": "def test_base100(self):\r\n        encode = '👫👟👜🐗👨👬👠👚👢🐗👙👩👦👮👥🐗👝👦👯🐗👡👬👤👧👜👛🐗👦👭👜👩🐗👫👟👜🐗👣👘👱👰🐗👛👦👞🐁'\r\n        assert BaseCrack().decode(encode)[0] == 'the quick brown fox jumped over the lazy dog', \"Base100 test failed.\"",
       "function_name": "test_base100",
       "outgoing_calls": [
-        "BaseCrack().decode",
-        "BaseCrack"
+        "BaseCrack",
+        "BaseCrack().decode"
       ]
     },
     {
@@ -261,17 +261,17 @@
       "function_name": "decode_base",
       "outgoing_calls": [
         "results[x].strip",
-        "push_error",
-        "DecodeBase(\n                encoded_base,\n                api_call = self.api_call,\n                image_mode = self.image_mode_call\n            ).decode",
-        "open",
-        "colored",
         "print_line_separator",
         "DecodeBase",
+        "print",
+        "push_error",
         "len",
         "range",
-        "open(self.output, 'a').write",
+        "open",
+        "colored",
+        "DecodeBase(\n                encoded_base,\n                api_call = self.api_call,\n                image_mode = self.image_mode_call\n            ).decode",
         "quit",
-        "print"
+        "open(self.output, 'a').write"
       ]
     },
     {
@@ -280,19 +280,19 @@
       "content": "def decode_from_file(self, file):\n        \"\"\"\n        `decode_from_file()` fetches the set of base encodings from the input file\n        and passes it to 'decode_base()' function to decode it all\n        \"\"\"\n\n        print(colored('[-] Decoding Base Data From ', 'cyan') + colored(file, 'yellow'))\n\n        # check whether file exists\n        if not Path(file).is_file():\n            push_error('File does not exist.')\n            quit()\n\n        with open(file) as input_file:\n            # reading each line from the file\n            for line in input_file:\n                # checking if the line/base is not empty\n                if len(line) > 1:\n                    line = line.strip()\n                    print(colored('\\n[-] Encoded Base: ', 'yellow')+str(line))\n                    \n                    if self.magic_mode_call:\n                        self.magic_mode(line)\n                    else:\n                        self.decode_base(line)\n\n                    print_line_separator()",
       "function_name": "decode_from_file",
       "outgoing_calls": [
-        "print",
-        "colored",
-        "Path",
-        "open",
-        "len",
         "str",
+        "print",
+        "print_line_separator",
         "push_error",
         "quit",
+        "Path",
+        "colored",
         "Path(file).is_file",
-        "self.decode_base",
+        "open",
+        "len",
         "line.strip",
-        "self.magic_mode",
-        "print_line_separator"
+        "self.decode_base",
+        "self.magic_mode"
       ]
     },
     {
@@ -310,18 +310,18 @@
       "content": "def magic_mode(self, encoded_base):\n        \"\"\"\n        `magic_mode()` tries to decode multi-encoded bases of any pattern\n        \"\"\"\n        iteration = 0\n        result = None\n        encoding_pattern = []\n        start_time = time.time()\n\n        while True:\n            if self.decode(encoded_base) is not None:\n                iteration += 1\n                result = self.decode(encoded_base)\n                decoded_string = result[0]\n                encoding_scheme = result[1]\n                encoding_pattern.append(encoding_scheme)\n\n                print(colored('\\n[-] Iteration: ', 'green')+colored(iteration, 'blue'))\n                print(colored('\\n[-] Heuristic Found Encoding To Be: ', 'yellow')+colored(encoding_scheme, 'green'))\n                print(colored('\\n[-] Decoding as {}: '.format(encoding_scheme), 'blue')+colored(decoded_string, 'green'))\n                print(colored('\\n{{<<', 'red')+colored('='*70, 'yellow')+colored('>>}}', 'red'))\n                \n                # setting the encoded bases and the current result for the next iteration\n                encoded_base = decoded_string\n            else:\n                break\n\n        if result is not None:\n            end_time = time.time()\n\n            print(colored('\\n[-] Total Iterations: ', 'green')+colored(iteration, 'blue'))\n\n            # show the encoding pattern in order and comma-seperated\n            pattern = ' -> '.join(map(str, encoding_pattern))\n            print(colored('\\n[-] Encoding Pattern: ', 'green')+colored(pattern, 'blue'))\n\n            print(\n                colored('\\n[-] Magic Decode Finished With Result: ', 'green') +\n                colored(decoded_string, 'yellow', attrs=['bold'])\n            )\n\n            # generating the wordlist/output file with the decoded base\n            if self.output != None:\n                open(self.output, 'a').write(decoded_string+'\\n')\n\n            completion_time = str(end_time-start_time)[:6]\n\n            print(\n                colored('\\n[-] Finished in ', 'green') +\n                colored(completion_time, 'cyan', attrs=['bold']) +\n                colored(' seconds\\n', 'green')\n            )\n        else:\n            quit(colored('\\n[!] Not a valid encoding.\\n', 'red'))",
       "function_name": "magic_mode",
       "outgoing_calls": [
-        "self.decode",
-        "' -> '.join",
-        "open",
+        "encoding_pattern.append",
         "time.time",
+        "' -> '.join",
+        "colored",
         "str",
         "open(self.output, 'a').write",
-        "print",
-        "colored",
         "'\\n[-] Decoding as {}: '.format",
+        "open",
         "quit",
         "map",
-        "encoding_pattern.append"
+        "print",
+        "self.decode"
       ]
     },
     {
@@ -330,26 +330,26 @@
       "content": "def decode_from_image(self, image, mode):\n        \"\"\"\n        `decode_from_image()` AKA \"lame_steganography_challenge_solving_automated()\" has two modes:\n            - OCR Detection Mode: dectects base encodings in images\n            - EXIF Data Mode: detects base encodings in an image's EXIF data\n        \"\"\"\n        self.image_mode_call = True\n\n        # check whether file exists\n        if not Path(image).is_file():\n            push_error('File does not exist.')\n            quit()\n\n        if mode == 'exif':\n            import exifread\n\n            read_image = open(image, 'rb')\n            exif_tags = exifread.process_file(read_image)\n\n            for tag in exif_tags:\n                split_tag = str(exif_tags[tag]).split(' ')\n\n                for base in split_tag:\n                    if len(base) < 3 or '\\\\x' in base: continue\n\n                    for base in base.splitlines():\n                        if self.magic_mode_call:\n                            self.magic_mode(base)\n                        else:\n                            self.decode_base(base)\n        elif mode == 'ocr':\n            import cv2, pytesseract\n\n            # import tesseract for windows\n            if platform.system() == 'Windows':\n                load_config = json.loads(open('config.json', 'r').read())\n\n                if len(load_config) > 0:\n                    # load 32/64 bit executables\n                    if sys.maxsize > 2**32:\n                        # 64 bit\n                        tesseract_path = load_config['tesseract_path']['32bit']\n                    else:\n                        # 32 bit\n                        tesseract_path = load_config['tesseract_path']['64bit']\n\n                # raw string to treat `\\` as a literal character\n                pytesseract.pytesseract.tesseract_cmd = r'{}'.format(tesseract_path)\n\n            read_image = cv2.imread(image)\n            get_text = pytesseract.image_to_string(read_image)\n            strings_from_img = str(get_text).replace(' ', '')\n\n            # cleaning the detected string with valid base chars for accurary\n            base = re.sub('[^A-Za-z0-9+/=@]', '', strings_from_img)\n\n            if self.magic_mode_call: self.magic_mode(base)\n            else: self.decode_base(base)",
       "function_name": "decode_from_image",
       "outgoing_calls": [
-        "len",
-        "re.sub",
-        "platform.system",
-        "open('config.json', 'r').read",
-        "self.magic_mode",
-        "str(exif_tags[tag]).split",
-        "quit",
-        "str(get_text).replace",
-        "str",
-        "r'{}'.format",
         "base.splitlines",
-        "json.loads",
-        "cv2.imread",
-        "pytesseract.image_to_string",
-        "push_error",
-        "exifread.process_file",
-        "open",
         "self.decode_base",
+        "open",
+        "exifread.process_file",
+        "len",
+        "str",
+        "cv2.imread",
+        "Path",
+        "pytesseract.image_to_string",
+        "re.sub",
+        "quit",
+        "open('config.json', 'r').read",
+        "push_error",
+        "str(get_text).replace",
         "Path(image).is_file",
-        "Path"
+        "json.loads",
+        "self.magic_mode",
+        "platform.system",
+        "str(exif_tags[tag]).split",
+        "r'{}'.format"
       ]
     },
     {
@@ -365,18 +365,18 @@
       "content": "def decode_base(self, encoded_base):\n        if len(encoded_base) > 3:\n            # execute decode chain\n            encoding_type, results = DecodeBase(\n                encoded_base,\n                api_call = self.api_call,\n                image_mode = self.image_mode_call\n            ).decode()\n\n            if not results and not self.api_call:\n                if not self.image_mode_call:\n                    push_error('Not a valid encoding.')\n\n                if self.quit_after_fail:\n                    quit()\n\n            # print/return the results\n            for x in range(len(results)):          \n                if not self.api_call:\n                    print(\n                        colored('\\n[-] The Encoding Scheme Is ', 'blue') +\n                        colored(encoding_type[x], 'green')\n                    )\n\n                    # generating the wordlist/output file with the decoded base\n                    if self.output != None:\n                        open(self.output, 'a').write(results[x]+'\\n')\n                else:\n                    return results[x].strip(), encoding_type[x]\n\n            if self.image_mode_call and results:\n                print_line_separator()\n        else:\n            push_error(\"Found no valid base encoded strings.\")",
       "function_name": "decode_base",
       "outgoing_calls": [
-        "open(self.output, 'a').write",
-        "colored",
-        "open",
-        "results[x].strip",
-        "print_line_separator",
         "len",
         "DecodeBase(\n                encoded_base,\n                api_call = self.api_call,\n                image_mode = self.image_mode_call\n            ).decode",
-        "quit",
-        "DecodeBase",
         "print",
+        "open",
+        "push_error",
         "range",
-        "push_error"
+        "colored",
+        "results[x].strip",
+        "print_line_separator",
+        "open(self.output, 'a').write",
+        "quit",
+        "DecodeBase"
       ]
     },
     {
@@ -385,19 +385,19 @@
       "content": "def decode_from_file(self, file):\n        \"\"\"\n        `decode_from_file()` fetches the set of base encodings from the input file\n        and passes it to 'decode_base()' function to decode it all\n        \"\"\"\n\n        print(colored('[-] Decoding Base Data From ', 'cyan') + colored(file, 'yellow'))\n\n        # check whether file exists\n        if not Path(file).is_file():\n            push_error('File does not exist.')\n            quit()\n\n        with open(file) as input_file:\n            # reading each line from the file\n            for line in input_file:\n                # checking if the line/base is not empty\n                if len(line) > 1:\n                    line = line.strip()\n                    print(colored('\\n[-] Encoded Base: ', 'yellow')+str(line))\n                    \n                    if self.magic_mode_call:\n                        self.magic_mode(line)\n                    else:\n                        self.decode_base(line)\n\n                    print_line_separator()",
       "function_name": "decode_from_file",
       "outgoing_calls": [
-        "print",
         "len",
-        "Path",
         "line.strip",
-        "str",
-        "colored",
-        "Path(file).is_file",
         "quit",
+        "str",
+        "open",
         "push_error",
+        "self.magic_mode",
         "self.decode_base",
         "print_line_separator",
-        "open",
-        "self.magic_mode"
+        "print",
+        "Path(file).is_file",
+        "colored",
+        "Path"
       ]
     },
     {
@@ -415,18 +415,18 @@
       "content": "def magic_mode(self, encoded_base):\n        \"\"\"\n        `magic_mode()` tries to decode multi-encoded bases of any pattern\n        \"\"\"\n        iteration = 0\n        result = None\n        encoding_pattern = []\n        start_time = time.time()\n\n        while True:\n            if self.decode(encoded_base) is not None:\n                iteration += 1\n                result = self.decode(encoded_base)\n                decoded_string = result[0]\n                encoding_scheme = result[1]\n                encoding_pattern.append(encoding_scheme)\n\n                print(colored('\\n[-] Iteration: ', 'green')+colored(iteration, 'blue'))\n                print(colored('\\n[-] Heuristic Found Encoding To Be: ', 'yellow')+colored(encoding_scheme, 'green'))\n                print(colored('\\n[-] Decoding as {}: '.format(encoding_scheme), 'blue')+colored(decoded_string, 'green'))\n                print(colored('\\n{{<<', 'red')+colored('='*70, 'yellow')+colored('>>}}', 'red'))\n                \n                # setting the encoded bases and the current result for the next iteration\n                encoded_base = decoded_string\n            else:\n                break\n\n        if result is not None:\n            end_time = time.time()\n\n            print(colored('\\n[-] Total Iterations: ', 'green')+colored(iteration, 'blue'))\n\n            # show the encoding pattern in order and comma-seperated\n            pattern = ' -> '.join(map(str, encoding_pattern))\n            print(colored('\\n[-] Encoding Pattern: ', 'green')+colored(pattern, 'blue'))\n\n            print(\n                colored('\\n[-] Magic Decode Finished With Result: ', 'green') +\n                colored(decoded_string, 'yellow', attrs=['bold'])\n            )\n\n            # generating the wordlist/output file with the decoded base\n            if self.output != None:\n                open(self.output, 'a').write(decoded_string+'\\n')\n\n            completion_time = str(end_time-start_time)[:6]\n\n            print(\n                colored('\\n[-] Finished in ', 'green') +\n                colored(completion_time, 'cyan', attrs=['bold']) +\n                colored(' seconds\\n', 'green')\n            )\n        else:\n            quit(colored('\\n[!] Not a valid encoding.\\n', 'red'))",
       "function_name": "magic_mode",
       "outgoing_calls": [
-        "quit",
-        "open(self.output, 'a').write",
         "str",
+        "encoding_pattern.append",
         "self.decode",
+        "open(self.output, 'a').write",
         "print",
         "map",
-        "encoding_pattern.append",
-        "colored",
         "'\\n[-] Decoding as {}: '.format",
-        "time.time",
+        "colored",
+        "' -> '.join",
         "open",
-        "' -> '.join"
+        "time.time",
+        "quit"
       ]
     },
     {
@@ -435,26 +435,26 @@
       "content": "def decode_from_image(self, image, mode):\n        \"\"\"\n        `decode_from_image()` AKA \"lame_steganography_challenge_solving_automated()\" has two modes:\n            - OCR Detection Mode: dectects base encodings in images\n            - EXIF Data Mode: detects base encodings in an image's EXIF data\n        \"\"\"\n        self.image_mode_call = True\n\n        # check whether file exists\n        if not Path(image).is_file():\n            push_error('File does not exist.')\n            quit()\n\n        if mode == 'exif':\n            import exifread\n\n            read_image = open(image, 'rb')\n            exif_tags = exifread.process_file(read_image)\n\n            for tag in exif_tags:\n                split_tag = str(exif_tags[tag]).split(' ')\n\n                for base in split_tag:\n                    if len(base) < 3 or '\\\\x' in base: continue\n\n                    for base in base.splitlines():\n                        if self.magic_mode_call:\n                            self.magic_mode(base)\n                        else:\n                            self.decode_base(base)\n        elif mode == 'ocr':\n            import cv2, pytesseract\n\n            # import tesseract for windows\n            if platform.system() == 'Windows':\n                load_config = json.loads(open('config.json', 'r').read())\n\n                if len(load_config) > 0:\n                    # load 32/64 bit executables\n                    if sys.maxsize > 2**32:\n                        # 64 bit\n                        tesseract_path = load_config['tesseract_path']['32bit']\n                    else:\n                        # 32 bit\n                        tesseract_path = load_config['tesseract_path']['64bit']\n\n                # raw string to treat `\\` as a literal character\n                pytesseract.pytesseract.tesseract_cmd = r'{}'.format(tesseract_path)\n\n            read_image = cv2.imread(image)\n            get_text = pytesseract.image_to_string(read_image)\n            strings_from_img = str(get_text).replace(' ', '')\n\n            # cleaning the detected string with valid base chars for accurary\n            base = re.sub('[^A-Za-z0-9+/=@]', '', strings_from_img)\n\n            if self.magic_mode_call: self.magic_mode(base)\n            else: self.decode_base(base)",
       "function_name": "decode_from_image",
       "outgoing_calls": [
-        "str(exif_tags[tag]).split",
-        "cv2.imread",
-        "quit",
-        "Path(image).is_file",
+        "push_error",
         "pytesseract.image_to_string",
-        "open",
-        "json.loads",
-        "str",
-        "platform.system",
+        "len",
+        "cv2.imread",
+        "base.splitlines",
         "Path",
+        "self.magic_mode",
         "re.sub",
         "r'{}'.format",
-        "len",
-        "base.splitlines",
-        "self.magic_mode",
-        "push_error",
+        "quit",
         "self.decode_base",
-        "str(get_text).replace",
+        "open('config.json', 'r').read",
+        "str(exif_tags[tag]).split",
+        "Path(image).is_file",
         "exifread.process_file",
-        "open('config.json', 'r').read"
+        "json.loads",
+        "str",
+        "str(get_text).replace",
+        "platform.system",
+        "open"
       ]
     },
     {
@@ -463,8 +463,8 @@
       "content": "def banner():\n    banner = '''\n██████╗  █████╗ ███████╗███████╗ ██████╗██████╗  █████╗  ██████╗██╗  ██╗\n██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝\n██████╔╝███████║███████╗█████╗  ██║     ██████╔╝███████║██║     █████╔╝ \n██╔══██╗██╔══██║╚════██║██╔══╝  ██║     ██╔══██╗██╔══██║██║     ██╔═██╗ \n██████╔╝██║  ██║███████║███████╗╚██████╗██║  ██║██║  ██║╚██████╗██║  ██╗\n╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ v4.0\n    '''\n    print(colored(banner, 'red')+colored('\\n\\t\\tpython basecrack.py -h [FOR HELP]\\n', 'green'))",
       "function_name": "banner",
       "outgoing_calls": [
-        "colored",
-        "print"
+        "print",
+        "colored"
       ]
     },
     {
@@ -473,22 +473,22 @@
       "content": "def main():\n    banner()\n\n    # setting up argparse module to accept arguments\n    parser = argparse.ArgumentParser()\n    parser.add_argument('-b', '--base', help='Decode a single encoded base from argument.')\n    parser.add_argument('-f', '--file', help='Decode multiple encoded bases from a file.')\n    parser.add_argument('-m', '--magic', help='Decode multi-encoded bases in one shot.', action='store_true')\n    parser.add_argument('-i', '--image', help='Decode base encodings from image with OCR detection or EXIF data.')\n    parser.add_argument('-c', '--ocr', help='OCR detection mode.', action='store_true')\n    parser.add_argument('-e', '--exif', help='EXIF data detection mode. (default)', action='store_true')\n    parser.add_argument('-o', '--output', help='Generate a wordlist/output with the decoded bases, enter filename as the value.')\n    args = parser.parse_args()\n\n    if args.output:\n        print(\n            colored('\\n[>] ', 'yellow') +\n            colored('Enabled Wordlist Generator Mode :: ', 'green') +\n            colored(args.output+'\\n', 'blue')\n        )\n\n    \"\"\"\n    decodes base encodings from file if argument is given\n    else it accepts a single encoded base from user\n    \"\"\"\n    if args.file:\n        if args.magic:\n            BaseCrack(\n                output=args.output,\n                magic_mode_call=True\n            ).decode_from_file(str(args.file))\n        else:\n            BaseCrack(output=args.output).decode_from_file(str(args.file))\n\n    elif args.base:\n        print(colored('[-] Encoded Base: ', 'yellow')+colored(str(args.base), 'red'))\n\n        if args.magic:\n            BaseCrack().magic_mode(str(args.base))\n        else:\n            BaseCrack().decode_base(str(args.base))\n\n    elif args.image:\n        print(colored('[-] Input Image: ', 'yellow')+colored(str(args.image), 'red'))\n\n        if args.ocr:\n            mode = 'ocr'\n        elif args.exif:\n            mode = 'exif'\n        # default\n        else:\n            mode = 'exif'\n\n        if args.magic:\n            BaseCrack(\n                output=args.output, magic_mode_call=True, quit_after_fail=False\n            ).decode_from_image(str(args.image), mode)\n        else:\n            BaseCrack(\n                quit_after_fail=False\n            ).decode_from_image(str(args.image), mode)\n\n    else:\n        if sys.version_info >= (3, 0):\n            encoded_base = input(colored('[>] Enter Encoded Base: ', 'yellow'))\n        else:\n            encoded_base = raw_input(colored('[>] Enter Encoded Base: ', 'yellow'))\n\n        if args.magic:\n            BaseCrack().magic_mode(encoded_base)\n        else:\n            BaseCrack().decode_base(encoded_base)\n\n    if args.output:\n        print(\n            colored('\\n[-] Output Generated Successfully > ', 'green') +\n            colored(args.output+'\\n', 'yellow')\n        )",
       "function_name": "main",
       "outgoing_calls": [
-        "print",
-        "colored",
-        "input",
-        "BaseCrack(output=args.output).decode_from_file",
-        "BaseCrack(\n                output=args.output, magic_mode_call=True, quit_after_fail=False\n            ).decode_from_image",
         "banner",
+        "parser.add_argument",
+        "input",
         "argparse.ArgumentParser",
-        "BaseCrack(\n                quit_after_fail=False\n            ).decode_from_image",
+        "BaseCrack().decode_base",
+        "BaseCrack(\n                output=args.output, magic_mode_call=True, quit_after_fail=False\n            ).decode_from_image",
+        "raw_input",
         "BaseCrack(\n                output=args.output,\n                magic_mode_call=True\n            ).decode_from_file",
         "BaseCrack().magic_mode",
-        "raw_input",
+        "BaseCrack(\n                quit_after_fail=False\n            ).decode_from_image",
         "BaseCrack",
-        "BaseCrack().decode_base",
+        "print",
         "parser.parse_args",
-        "str",
-        "parser.add_argument"
+        "colored",
+        "BaseCrack(output=args.output).decode_from_file",
+        "str"
       ]
     },
     {
@@ -518,8 +518,8 @@
       "content": "def base92_ord(val):\n    num = ord(val)\n    if val == '!':\n        return 0\n    elif ord('#') <= num and num <= ord('_'):\n        return num - ord('#') + 1\n    elif ord('a') <= num and num <= ord('}'):\n        return num - ord('a') + 62\n    else:\n        raise ValueError('val is not a base92 character')",
       "function_name": "base92_ord",
       "outgoing_calls": [
-        "ValueError",
-        "ord"
+        "ord",
+        "ValueError"
       ]
     },
     {
@@ -528,13 +528,13 @@
       "content": "def base92_decode(bstr):\n    bitstr = ''\n    resstr = ''\n    if bstr == '~':\n        return ''\n    # we always have pairs of characters\n    for i in range(len(bstr) // 2):\n        x = base92_ord(bstr[2*i])*91 + base92_ord(bstr[2*i+1])\n        bitstr += '{:013b}'.format(x)\n        while 8 <= len(bitstr):\n            resstr += chr(int(bitstr[0:8], 2))\n            bitstr = bitstr[8:]\n    # if we have an extra char, check for extras\n    if len(bstr) % 2 == 1:\n        x = base92_ord(bstr[-1])\n        bitstr += '{:06b}'.format(x)\n        while 8 <= len(bitstr):\n            resstr += chr(int(bitstr[0:8], 2))\n            bitstr = bitstr[8:]\n    return resstr",
       "function_name": "base92_decode",
       "outgoing_calls": [
-        "'{:013b}'.format",
-        "'{:06b}'.format",
-        "len",
-        "chr",
         "range",
         "base92_ord",
-        "int"
+        "'{:013b}'.format",
+        "int",
+        "'{:06b}'.format",
+        "len",
+        "chr"
       ]
     },
     {
@@ -560,8 +560,8 @@
       "content": "def push_error(message):\n    print(colored('\\n[!] {}\\n'.format(message), 'red'))",
       "function_name": "push_error",
       "outgoing_calls": [
-        "'\\n[!] {}\\n'.format",
         "print",
+        "'\\n[!] {}\\n'.format",
         "colored"
       ]
     },
@@ -603,13 +603,13 @@
       "content": "def process_decode(self, decode_string, scheme):\n        \"\"\"\n        `process_decode()` stores the result if the encoding is valid\n        after checks from `contains_replacement_char()` and\n        prints the output if it isn't an API call\n        \"\"\"\n        encoding_type = self.encoding_type\n        results = self.results\n\n        if len(decode_string) < 3: return\n        if not self.contains_replacement_char(decode_string):\n            # don't repeat `base64url` when `base64` has already passed and it's not a URL\n            if scheme == 'Base64' and '://' not in decode_string:\n                self.b64_once = True\n                \n            if self.b64_once and (scheme == 'Base64URL'):\n                return\n            \n            # append results to the respective lists\n            encoding_type.append(scheme)\n            results.append(decode_string)\n\n            if not self.api_call:\n                if self.image_mode_call:\n                    print(\n                        colored('\\n[-] Attempting Base: ', 'yellow') +\n                        colored(self.encoded_base, 'red')\n                    )\n\n                print(\n                    colored('\\n[>] Decoding as {}: '.format(scheme), 'blue') +\n                    colored(decode_string, 'green')\n                )",
       "function_name": "process_decode",
       "outgoing_calls": [
-        "results.append",
-        "encoding_type.append",
-        "print",
-        "colored",
         "self.contains_replacement_char",
+        "print",
+        "len",
+        "encoding_type.append",
+        "results.append",
         "'\\n[>] Decoding as {}: '.format",
-        "len"
+        "colored"
       ]
     },
     {
@@ -618,36 +618,36 @@
       "content": "def decode_base(self):\n        encoded_base = self.encoded_base\n        process_decode = self.process_decode\n\n        # decoding as base16\n        try:\n            process_decode(\n                base64.b16decode(encoded_base, casefold=False).decode('utf-8', 'replace'),\n                'Base16'\n            )\n        except Exception as _: pass\n\n        # decoding as base32\n        try:\n            process_decode(\n                base64.b32decode(\n                    encoded_base, casefold=False, map01=None\n                ).decode('utf-8', 'replace'),\n                'Base32'\n            )\n            self.b32_once = True\n        except Exception as _: pass\n\n        # decoding as base32 (RFC 3548)\n        if not self.b32_once:\n            try:\n                \"\"\"\n                Base32 charset can differ based on their spec, this requires stripping\n                the padding or changing charsets to get the correct results.\n                By default this `anybase32` implementation follows the RFC 3548 spec.\n                \"\"\"\n                temp_clean_base = str.encode(encoded_base.replace('=', ''))\n                process_decode(\n                    anybase32.decode(temp_clean_base).decode('utf-8', 'replace'),\n                    'Base32'\n                )\n            except Exception as _: pass                \n\n        # decoding as base36\n        try:\n            process_decode(\n                base36.dumps(int(encoded_base)),\n                'Base36'\n            )\n        except Exception as _: pass\n\n        # decoding as base58\n        try:\n            process_decode(\n                base58.b58decode(encoded_base.encode()).decode('utf-8', 'replace'),\n                'Base58'\n            )\n        except Exception as _: pass\n\n        # decoding as base62\n        try:\n            process_decode(\n                base62.decodebytes(encoded_base).decode('utf-8', 'replace'),\n                'Base62'\n            )\n        except Exception as _: pass\n\n        # decoding as base64\n        try:\n            process_decode(\n                base64.b64decode(encoded_base).decode('utf-8', 'replace'),\n                'Base64'\n            )\n        except Exception as _: pass\n\n        # decoding as base64url\n        try:\n            process_decode(\n                base64.urlsafe_b64decode(\n                    encoded_base + '=' * (4 - len(encoded_base) % 4)\n                ).decode('utf-8', 'replace'),\n                'Base64URL'\n            )\n        except Exception as _: pass\n\n        # decoding as base85\n        try:\n            process_decode(\n                base64.b85decode(encoded_base).decode('utf-8', 'replace'),\n                'Base85'\n            )\n        except Exception as _: pass\n\n        # decoding as ascii85\n        try:\n            process_decode(\n                base64.a85decode(encoded_base).decode('utf-8', 'replace'),\n                'Ascii85'\n            )\n        except Exception as _: pass\n\n        # decoding as base91\n        try:\n            process_decode(\n                base91.decode(encoded_base).decode('utf-8', 'replace'),\n                'Base91'\n            )\n        except Exception as _: pass\n\n        # decoding as base92\n        try:\n            process_decode(\n                base92.decode(encoded_base),\n                'Base92'\n            )\n        except Exception as _: pass\n\n        # decoding as base100 lol why??!!\n        try:\n            process_decode(\n                pybase100.decode(encoded_base).decode(),\n                'Base100'\n            )\n        except Exception as _:\n            pass",
       "function_name": "decode_base",
       "outgoing_calls": [
-        "base64.b32decode(\n                    encoded_base, casefold=False, map01=None\n                ).decode",
-        "base64.b85decode",
-        "base62.decodebytes(encoded_base).decode",
-        "base64.b64decode(encoded_base).decode",
-        "base64.b85decode(encoded_base).decode",
-        "base58.b58decode(encoded_base.encode()).decode",
-        "base64.a85decode(encoded_base).decode",
-        "encoded_base.replace",
-        "base64.a85decode",
-        "base36.dumps",
-        "anybase32.decode",
-        "len",
-        "base64.b64decode",
-        "base64.urlsafe_b64decode(\n                    encoded_base + '=' * (4 - len(encoded_base) % 4)\n                ).decode",
-        "process_decode",
-        "base64.b16decode(encoded_base, casefold=False).decode",
-        "str.encode",
-        "base64.b32decode",
-        "base58.b58decode",
-        "encoded_base.encode",
-        "base62.decodebytes",
-        "pybase100.decode",
-        "pybase100.decode(encoded_base).decode",
-        "base64.b16decode",
-        "anybase32.decode(temp_clean_base).decode",
         "base91.decode(encoded_base).decode",
+        "base58.b58decode(encoded_base.encode()).decode",
+        "base64.b64decode",
+        "base64.b64decode(encoded_base).decode",
+        "anybase32.decode(temp_clean_base).decode",
+        "base64.b85decode",
+        "pybase100.decode",
+        "base36.dumps",
+        "base64.a85decode(encoded_base).decode",
+        "process_decode",
+        "base64.b32decode",
+        "base64.b85decode(encoded_base).decode",
+        "anybase32.decode",
+        "encoded_base.encode",
+        "int",
+        "base62.decodebytes(encoded_base).decode",
+        "base62.decodebytes",
+        "str.encode",
+        "base64.urlsafe_b64decode(\n                    encoded_base + '=' * (4 - len(encoded_base) % 4)\n                ).decode",
+        "base64.b32decode(\n                    encoded_base, casefold=False, map01=None\n                ).decode",
+        "encoded_base.replace",
+        "len",
         "base92.decode",
         "base64.urlsafe_b64decode",
-        "int",
-        "base91.decode"
+        "base64.a85decode",
+        "base91.decode",
+        "base64.b16decode",
+        "base58.b58decode",
+        "base64.b16decode(encoded_base, casefold=False).decode",
+        "pybase100.decode(encoded_base).decode"
       ]
     },
     {
@@ -681,13 +681,13 @@
       "content": "def process_decode(self, decode_string, scheme):\n        \"\"\"\n        `process_decode()` stores the result if the encoding is valid\n        after checks from `contains_replacement_char()` and\n        prints the output if it isn't an API call\n        \"\"\"\n        encoding_type = self.encoding_type\n        results = self.results\n\n        if len(decode_string) < 3: return\n        if not self.contains_replacement_char(decode_string):\n            # don't repeat `base64url` when `base64` has already passed and it's not a URL\n            if scheme == 'Base64' and '://' not in decode_string:\n                self.b64_once = True\n                \n            if self.b64_once and (scheme == 'Base64URL'):\n                return\n            \n            # append results to the respective lists\n            encoding_type.append(scheme)\n            results.append(decode_string)\n\n            if not self.api_call:\n                if self.image_mode_call:\n                    print(\n                        colored('\\n[-] Attempting Base: ', 'yellow') +\n                        colored(self.encoded_base, 'red')\n                    )\n\n                print(\n                    colored('\\n[>] Decoding as {}: '.format(scheme), 'blue') +\n                    colored(decode_string, 'green')\n                )",
       "function_name": "process_decode",
       "outgoing_calls": [
-        "colored",
         "print",
-        "'\\n[>] Decoding as {}: '.format",
-        "self.contains_replacement_char",
         "len",
-        "encoding_type.append",
-        "results.append"
+        "'\\n[>] Decoding as {}: '.format",
+        "colored",
+        "self.contains_replacement_char",
+        "results.append",
+        "encoding_type.append"
       ]
     },
     {
@@ -696,36 +696,36 @@
       "content": "def decode_base(self):\n        encoded_base = self.encoded_base\n        process_decode = self.process_decode\n\n        # decoding as base16\n        try:\n            process_decode(\n                base64.b16decode(encoded_base, casefold=False).decode('utf-8', 'replace'),\n                'Base16'\n            )\n        except Exception as _: pass\n\n        # decoding as base32\n        try:\n            process_decode(\n                base64.b32decode(\n                    encoded_base, casefold=False, map01=None\n                ).decode('utf-8', 'replace'),\n                'Base32'\n            )\n            self.b32_once = True\n        except Exception as _: pass\n\n        # decoding as base32 (RFC 3548)\n        if not self.b32_once:\n            try:\n                \"\"\"\n                Base32 charset can differ based on their spec, this requires stripping\n                the padding or changing charsets to get the correct results.\n                By default this `anybase32` implementation follows the RFC 3548 spec.\n                \"\"\"\n                temp_clean_base = str.encode(encoded_base.replace('=', ''))\n                process_decode(\n                    anybase32.decode(temp_clean_base).decode('utf-8', 'replace'),\n                    'Base32'\n                )\n            except Exception as _: pass                \n\n        # decoding as base36\n        try:\n            process_decode(\n                base36.dumps(int(encoded_base)),\n                'Base36'\n            )\n        except Exception as _: pass\n\n        # decoding as base58\n        try:\n            process_decode(\n                base58.b58decode(encoded_base.encode()).decode('utf-8', 'replace'),\n                'Base58'\n            )\n        except Exception as _: pass\n\n        # decoding as base62\n        try:\n            process_decode(\n                base62.decodebytes(encoded_base).decode('utf-8', 'replace'),\n                'Base62'\n            )\n        except Exception as _: pass\n\n        # decoding as base64\n        try:\n            process_decode(\n                base64.b64decode(encoded_base).decode('utf-8', 'replace'),\n                'Base64'\n            )\n        except Exception as _: pass\n\n        # decoding as base64url\n        try:\n            process_decode(\n                base64.urlsafe_b64decode(\n                    encoded_base + '=' * (4 - len(encoded_base) % 4)\n                ).decode('utf-8', 'replace'),\n                'Base64URL'\n            )\n        except Exception as _: pass\n\n        # decoding as base85\n        try:\n            process_decode(\n                base64.b85decode(encoded_base).decode('utf-8', 'replace'),\n                'Base85'\n            )\n        except Exception as _: pass\n\n        # decoding as ascii85\n        try:\n            process_decode(\n                base64.a85decode(encoded_base).decode('utf-8', 'replace'),\n                'Ascii85'\n            )\n        except Exception as _: pass\n\n        # decoding as base91\n        try:\n            process_decode(\n                base91.decode(encoded_base).decode('utf-8', 'replace'),\n                'Base91'\n            )\n        except Exception as _: pass\n\n        # decoding as base92\n        try:\n            process_decode(\n                base92.decode(encoded_base),\n                'Base92'\n            )\n        except Exception as _: pass\n\n        # decoding as base100 lol why??!!\n        try:\n            process_decode(\n                pybase100.decode(encoded_base).decode(),\n                'Base100'\n            )\n        except Exception as _:\n            pass",
       "function_name": "decode_base",
       "outgoing_calls": [
-        "str.encode",
-        "process_decode",
-        "base64.b64decode",
-        "len",
-        "base64.b32decode(\n                    encoded_base, casefold=False, map01=None\n                ).decode",
-        "encoded_base.encode",
-        "int",
-        "base64.b85decode(encoded_base).decode",
-        "base36.dumps",
-        "base64.b16decode",
-        "base91.decode",
-        "base58.b58decode",
-        "base64.b64decode(encoded_base).decode",
-        "anybase32.decode(temp_clean_base).decode",
-        "base64.urlsafe_b64decode",
-        "base64.b16decode(encoded_base, casefold=False).decode",
         "anybase32.decode",
-        "base91.decode(encoded_base).decode",
+        "encoded_base.replace",
+        "base64.a85decode(encoded_base).decode",
+        "base64.b16decode(encoded_base, casefold=False).decode",
+        "base64.b85decode(encoded_base).decode",
+        "str.encode",
+        "base64.b32decode(\n                    encoded_base, casefold=False, map01=None\n                ).decode",
+        "pybase100.decode(encoded_base).decode",
+        "base64.b16decode",
+        "base58.b58decode",
+        "pybase100.decode",
+        "base36.dumps",
+        "base91.decode",
+        "base62.decodebytes",
+        "encoded_base.encode",
+        "base64.b32decode",
+        "base62.decodebytes(encoded_base).decode",
+        "anybase32.decode(temp_clean_base).decode",
+        "process_decode",
+        "base58.b58decode(encoded_base.encode()).decode",
         "base64.b85decode",
         "base64.a85decode",
-        "base58.b58decode(encoded_base.encode()).decode",
-        "base64.b32decode",
+        "base91.decode(encoded_base).decode",
+        "len",
+        "base64.b64decode(encoded_base).decode",
         "base64.urlsafe_b64decode(\n                    encoded_base + '=' * (4 - len(encoded_base) % 4)\n                ).decode",
-        "base62.decodebytes",
-        "base62.decodebytes(encoded_base).decode",
-        "pybase100.decode(encoded_base).decode",
-        "encoded_base.replace",
-        "pybase100.decode",
-        "base64.a85decode(encoded_base).decode",
-        "base92.decode"
+        "int",
+        "base92.decode",
+        "base64.b64decode",
+        "base64.urlsafe_b64decode"
       ]
     },
     {
@@ -755,17 +755,17 @@
       "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack.decode_base": {
         "children": [
           "/Users/mufeedvh/dev/basecrack/basecrack.py.results[x].strip",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.push_error",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.DecodeBase(\n                encoded_base,\n                api_call = self.api_call,\n                image_mode = self.image_mode_call\n            ).decode",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.print_line_separator",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.DecodeBase",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.push_error",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.len",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.range",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open(self.output, 'a').write",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.DecodeBase(\n                encoded_base,\n                api_call = self.api_call,\n                image_mode = self.image_mode_call\n            ).decode",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.print"
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open(self.output, 'a').write"
         ],
         "class_name": "BaseCrack",
         "file_path": "Users/mufeedvh/dev/basecrack/basecrack.py",
@@ -773,19 +773,19 @@
       },
       "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack.decode_from_file": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.Path",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.len",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.str",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.print_line_separator",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.push_error",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.Path",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.Path(file).is_file",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.decode_base",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.len",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.line.strip",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.magic_mode",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.print_line_separator"
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.decode_base",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.magic_mode"
         ],
         "class_name": "BaseCrack",
         "file_path": "Users/mufeedvh/dev/basecrack/basecrack.py",
@@ -793,26 +793,26 @@
       },
       "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack.decode_from_image": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.len",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.re.sub",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.platform.system",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open('config.json', 'r').read",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.magic_mode",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.str(exif_tags[tag]).split",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.str(get_text).replace",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.str",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.r'{}'.format",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.base.splitlines",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.json.loads",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.cv2.imread",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.pytesseract.image_to_string",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.push_error",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.exifread.process_file",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.self.decode_base",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.exifread.process_file",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.len",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.str",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.cv2.imread",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.Path",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.pytesseract.image_to_string",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.re.sub",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open('config.json', 'r').read",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.push_error",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.str(get_text).replace",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.Path(image).is_file",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.Path"
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.json.loads",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.magic_mode",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.platform.system",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.str(exif_tags[tag]).split",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.r'{}'.format"
         ],
         "class_name": "BaseCrack",
         "file_path": "Users/mufeedvh/dev/basecrack/basecrack.py",
@@ -820,18 +820,18 @@
       },
       "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack.magic_mode": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.decode",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.' -> '.join",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.encoding_pattern.append",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.time.time",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.' -> '.join",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.str",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.open(self.output, 'a').write",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.'\\n[-] Decoding as {}: '.format",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.map",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.encoding_pattern.append"
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.decode"
         ],
         "class_name": "BaseCrack",
         "file_path": "Users/mufeedvh/dev/basecrack/basecrack.py",
@@ -845,8 +845,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/basecrack.py.banner": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.print"
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/basecrack.py",
@@ -862,18 +862,18 @@
       },
       "/Users/mufeedvh/dev/basecrack/basecrack.py.decode_base": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open(self.output, 'a').write",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.results[x].strip",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.print_line_separator",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.len",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.DecodeBase(\n                encoded_base,\n                api_call = self.api_call,\n                image_mode = self.image_mode_call\n            ).decode",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.DecodeBase",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.push_error",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.range",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.push_error"
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.results[x].strip",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.print_line_separator",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open(self.output, 'a').write",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.DecodeBase"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/basecrack.py",
@@ -881,19 +881,19 @@
       },
       "/Users/mufeedvh/dev/basecrack/basecrack.py.decode_from_file": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.len",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.Path",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.line.strip",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.str",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.Path(file).is_file",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.str",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.push_error",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.magic_mode",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.self.decode_base",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.print_line_separator",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.magic_mode"
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.Path(file).is_file",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.Path"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/basecrack.py",
@@ -901,26 +901,26 @@
       },
       "/Users/mufeedvh/dev/basecrack/basecrack.py.decode_from_image": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.str(exif_tags[tag]).split",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.cv2.imread",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.Path(image).is_file",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.push_error",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.pytesseract.image_to_string",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.json.loads",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.str",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.platform.system",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.len",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.cv2.imread",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.base.splitlines",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.Path",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.magic_mode",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.re.sub",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.r'{}'.format",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.len",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.base.splitlines",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.self.magic_mode",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.push_error",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.self.decode_base",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.str(get_text).replace",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open('config.json', 'r').read",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.str(exif_tags[tag]).split",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.Path(image).is_file",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.exifread.process_file",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open('config.json', 'r').read"
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.json.loads",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.str",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.str(get_text).replace",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.platform.system",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/basecrack.py",
@@ -928,18 +928,18 @@
       },
       "/Users/mufeedvh/dev/basecrack/basecrack.py.magic_mode": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.quit",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.open(self.output, 'a').write",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.str",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.encoding_pattern.append",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.self.decode",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.open(self.output, 'a').write",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.map",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.encoding_pattern.append",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.'\\n[-] Decoding as {}: '.format",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.time.time",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.' -> '.join",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.open",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.' -> '.join"
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.time.time",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.quit"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/basecrack.py",
@@ -947,22 +947,22 @@
       },
       "/Users/mufeedvh/dev/basecrack/basecrack.py.main": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.input",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack(output=args.output).decode_from_file",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack(\n                output=args.output, magic_mode_call=True, quit_after_fail=False\n            ).decode_from_image",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.banner",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.parser.add_argument",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.input",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.argparse.ArgumentParser",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack(\n                quit_after_fail=False\n            ).decode_from_image",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack().decode_base",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack(\n                output=args.output, magic_mode_call=True, quit_after_fail=False\n            ).decode_from_image",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.raw_input",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack(\n                output=args.output,\n                magic_mode_call=True\n            ).decode_from_file",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack().magic_mode",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.raw_input",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack(\n                quit_after_fail=False\n            ).decode_from_image",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack().decode_base",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.print",
           "/Users/mufeedvh/dev/basecrack/basecrack.py.parser.parse_args",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.str",
-          "/Users/mufeedvh/dev/basecrack/basecrack.py.parser.add_argument"
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.colored",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.BaseCrack(output=args.output).decode_from_file",
+          "/Users/mufeedvh/dev/basecrack/basecrack.py.str"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/basecrack.py",
@@ -970,13 +970,13 @@
       },
       "/Users/mufeedvh/dev/basecrack/src/base92.py.base92_decode": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/src/base92.py.'{:013b}'.format",
-          "/Users/mufeedvh/dev/basecrack/src/base92.py.'{:06b}'.format",
-          "/Users/mufeedvh/dev/basecrack/src/base92.py.len",
-          "/Users/mufeedvh/dev/basecrack/src/base92.py.chr",
           "/Users/mufeedvh/dev/basecrack/src/base92.py.range",
           "/Users/mufeedvh/dev/basecrack/src/base92.py.base92_ord",
-          "/Users/mufeedvh/dev/basecrack/src/base92.py.int"
+          "/Users/mufeedvh/dev/basecrack/src/base92.py.'{:013b}'.format",
+          "/Users/mufeedvh/dev/basecrack/src/base92.py.int",
+          "/Users/mufeedvh/dev/basecrack/src/base92.py.'{:06b}'.format",
+          "/Users/mufeedvh/dev/basecrack/src/base92.py.len",
+          "/Users/mufeedvh/dev/basecrack/src/base92.py.chr"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/src/base92.py",
@@ -984,8 +984,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/src/base92.py.base92_ord": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/src/base92.py.ValueError",
-          "/Users/mufeedvh/dev/basecrack/src/base92.py.ord"
+          "/Users/mufeedvh/dev/basecrack/src/base92.py.ord",
+          "/Users/mufeedvh/dev/basecrack/src/base92.py.ValueError"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/src/base92.py",
@@ -1015,36 +1015,36 @@
       },
       "/Users/mufeedvh/dev/basecrack/src/base_chain.py.DecodeBase.decode_base": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b32decode(\n                    encoded_base, casefold=False, map01=None\n                ).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b85decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base62.decodebytes(encoded_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b64decode(encoded_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b85decode(encoded_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base58.b58decode(encoded_base.encode()).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.a85decode(encoded_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoded_base.replace",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.a85decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base36.dumps",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.anybase32.decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.len",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b64decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.urlsafe_b64decode(\n                    encoded_base + '=' * (4 - len(encoded_base) % 4)\n                ).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.process_decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b16decode(encoded_base, casefold=False).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.str.encode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b32decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base58.b58decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoded_base.encode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base62.decodebytes",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.pybase100.decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.pybase100.decode(encoded_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b16decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.anybase32.decode(temp_clean_base).decode",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base91.decode(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base58.b58decode(encoded_base.encode()).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b64decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b64decode(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.anybase32.decode(temp_clean_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b85decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.pybase100.decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base36.dumps",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.a85decode(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.process_decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b32decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b85decode(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.anybase32.decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoded_base.encode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.int",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base62.decodebytes(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base62.decodebytes",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.str.encode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.urlsafe_b64decode(\n                    encoded_base + '=' * (4 - len(encoded_base) % 4)\n                ).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b32decode(\n                    encoded_base, casefold=False, map01=None\n                ).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoded_base.replace",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.len",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base92.decode",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.urlsafe_b64decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.int",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base91.decode"
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.a85decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base91.decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b16decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base58.b58decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b16decode(encoded_base, casefold=False).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.pybase100.decode(encoded_base).decode"
         ],
         "class_name": "DecodeBase",
         "file_path": "Users/mufeedvh/dev/basecrack/src/base_chain.py",
@@ -1052,13 +1052,13 @@
       },
       "/Users/mufeedvh/dev/basecrack/src/base_chain.py.DecodeBase.process_decode": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.results.append",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoding_type.append",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.print",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.colored",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.self.contains_replacement_char",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.print",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.len",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoding_type.append",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.results.append",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.'\\n[>] Decoding as {}: '.format",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.len"
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.colored"
         ],
         "class_name": "DecodeBase",
         "file_path": "Users/mufeedvh/dev/basecrack/src/base_chain.py",
@@ -1088,36 +1088,36 @@
       },
       "/Users/mufeedvh/dev/basecrack/src/base_chain.py.decode_base": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.str.encode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.process_decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b64decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.len",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b32decode(\n                    encoded_base, casefold=False, map01=None\n                ).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoded_base.encode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.int",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b85decode(encoded_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base36.dumps",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b16decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base91.decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base58.b58decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b64decode(encoded_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.anybase32.decode(temp_clean_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.urlsafe_b64decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b16decode(encoded_base, casefold=False).decode",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.anybase32.decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base91.decode(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoded_base.replace",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.a85decode(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b16decode(encoded_base, casefold=False).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b85decode(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.str.encode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b32decode(\n                    encoded_base, casefold=False, map01=None\n                ).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.pybase100.decode(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b16decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base58.b58decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.pybase100.decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base36.dumps",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base91.decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base62.decodebytes",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoded_base.encode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b32decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base62.decodebytes(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.anybase32.decode(temp_clean_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.process_decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base58.b58decode(encoded_base.encode()).decode",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b85decode",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.a85decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base58.b58decode(encoded_base.encode()).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b32decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base91.decode(encoded_base).decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.len",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b64decode(encoded_base).decode",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.urlsafe_b64decode(\n                    encoded_base + '=' * (4 - len(encoded_base) % 4)\n                ).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base62.decodebytes",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base62.decodebytes(encoded_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.pybase100.decode(encoded_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoded_base.replace",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.pybase100.decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.a85decode(encoded_base).decode",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base92.decode"
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.int",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base92.decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.b64decode",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.base64.urlsafe_b64decode"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/src/base_chain.py",
@@ -1125,13 +1125,13 @@
       },
       "/Users/mufeedvh/dev/basecrack/src/base_chain.py.process_decode": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.colored",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.print",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.'\\n[>] Decoding as {}: '.format",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.self.contains_replacement_char",
           "/Users/mufeedvh/dev/basecrack/src/base_chain.py.len",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoding_type.append",
-          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.results.append"
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.'\\n[>] Decoding as {}: '.format",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.colored",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.self.contains_replacement_char",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.results.append",
+          "/Users/mufeedvh/dev/basecrack/src/base_chain.py.encoding_type.append"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/src/base_chain.py",
@@ -1148,8 +1148,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/src/messages.py.push_error": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/src/messages.py.'\\n[!] {}\\n'.format",
           "/Users/mufeedvh/dev/basecrack/src/messages.py.print",
+          "/Users/mufeedvh/dev/basecrack/src/messages.py.'\\n[!] {}\\n'.format",
           "/Users/mufeedvh/dev/basecrack/src/messages.py.colored"
         ],
         "class_name": null,
@@ -1158,8 +1158,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.TestBase.test_ascii85": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
         ],
         "class_name": "TestBase",
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1176,8 +1176,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.TestBase.test_base16": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
         ],
         "class_name": "TestBase",
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1185,8 +1185,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.TestBase.test_base32": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
         ],
         "class_name": "TestBase",
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1203,8 +1203,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.TestBase.test_base58": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
         ],
         "class_name": "TestBase",
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1212,8 +1212,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.TestBase.test_base62": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
         ],
         "class_name": "TestBase",
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1221,8 +1221,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.TestBase.test_base64": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
         ],
         "class_name": "TestBase",
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1257,8 +1257,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.TestBase.test_base92": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
         ],
         "class_name": "TestBase",
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1275,8 +1275,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.test_base100": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1311,8 +1311,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.test_base58": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1329,8 +1329,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.test_base64": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1347,8 +1347,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.test_base85": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
@@ -1365,8 +1365,8 @@
       },
       "/Users/mufeedvh/dev/basecrack/tests/tests.py.test_base92": {
         "children": [
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode",
-          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack"
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack",
+          "/Users/mufeedvh/dev/basecrack/tests/tests.py.BaseCrack().decode"
         ],
         "class_name": null,
         "file_path": "Users/mufeedvh/dev/basecrack/tests/tests.py",
