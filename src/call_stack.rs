@@ -51,5 +51,5 @@ impl CallStack {
         }
 
         graph
-    }    
+    }
 }

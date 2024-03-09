@@ -112,7 +112,11 @@ fn traverse_tree(
         let block_type = BlockType::Function;
         let block_content = node.utf8_text(code.as_bytes()).unwrap().to_string();
 
-        let node_key = generate_node_key(Path::new(module_name), class_name.as_deref(), &function_name);
+        let node_key = generate_node_key(
+            Path::new(module_name),
+            class_name.as_deref(),
+            &function_name,
+        );
 
         let mut block = Block::new(
             node_key,
@@ -171,7 +175,7 @@ fn find_calls(
                     // This is for method calls on an object; the part before '.' is treated as an object, not a module.
                     let object_name = parts[0];
                     let method_name = parts[1];
-                    
+
                     // If the object name matches an alias from the imports, resolve to the correct module.
                     if let Some(imported_module) = imports.get(object_name) {
                         let call_key = generate_node_key(
@@ -198,7 +202,8 @@ fn find_calls(
                         );
                         calls.insert(call_key);
                     } else {
-                        let function_key = generate_node_key(Path::new(module_name), None, &function_name);
+                        let function_key =
+                            generate_node_key(Path::new(module_name), None, &function_name);
                         calls.insert(function_key);
                     }
                 }
@@ -230,7 +235,8 @@ fn parse_import_statement(code: &str, node: Node, language: Language) -> Option<
         lang if lang == unsafe { tree_sitter_python() } => {
             if node.kind() == "import_from_statement" {
                 // Extract the module name from the 'module_name' field
-                let module = node.child_by_field_name("module_name")
+                let module = node
+                    .child_by_field_name("module_name")
                     .map(|n| n.utf8_text(code.as_bytes()).ok())
                     .flatten()
                     .unwrap_or_default()
@@ -240,7 +246,10 @@ fn parse_import_statement(code: &str, node: Node, language: Language) -> Option<
                 let node_walk = &mut node.walk();
                 let imported_names = node.children_by_field_name("name", node_walk);
                 for imported_name in imported_names {
-                    let alias = imported_name.utf8_text(code.as_bytes()).unwrap_or_default().to_string();
+                    let alias = imported_name
+                        .utf8_text(code.as_bytes())
+                        .unwrap_or_default()
+                        .to_string();
 
                     // In this case, we assume that each import statement imports a single name,
                     // so we return the first found. For handling multiple imports, this approach needs to be adjusted.

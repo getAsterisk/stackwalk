@@ -31,7 +31,11 @@ impl CallGraph {
             let file_name = node.file_path.split('/').last().unwrap_or("");
             let mut node_label = format!("{}::{}", file_name, node.function_name);
             if let Some(class_name) = &node.class_name {
-                node_label = format!("{}::{}", file_name, format!("{}::{}", class_name, node.function_name));
+                node_label = format!(
+                    "{}::{}",
+                    file_name,
+                    format!("{}::{}", class_name, node.function_name)
+                );
             }
             graphviz.push_str(&format!("  \"{}\" [label=\"{}\"];\n", node_key, node_label));
         }

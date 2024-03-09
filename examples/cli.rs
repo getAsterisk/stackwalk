@@ -34,8 +34,12 @@ fn main() {
 
     let graphviz = call_graph.to_graphviz();
     let graphviz_file_name = format!("{}_call_graph.dot", project_name);
-    let mut graphviz_file = File::create(&graphviz_file_name).expect("Failed to create Graphviz file");
+    let mut graphviz_file =
+        File::create(&graphviz_file_name).expect("Failed to create Graphviz file");
     write!(graphviz_file, "{}", graphviz).expect("Failed to write to Graphviz file");
 
-    println!("Call graph generated. Graphviz file written to {}", graphviz_file_name);
+    println!(
+        "Call graph generated. Graphviz file written to {}",
+        graphviz_file_name
+    );
 }

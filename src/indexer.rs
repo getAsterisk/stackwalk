@@ -2,8 +2,8 @@ use jwalk::WalkDir;
 use std::path::Path;
 
 use crate::block::{Block, BlockType};
-use crate::call_stack::{CallStack, CallStackNode};
 use crate::call_graph::CallGraph;
+use crate::call_stack::{CallStack, CallStackNode};
 use crate::parser::parse_file;
 use crate::utils::get_supported_extensions;
 
@@ -15,7 +15,11 @@ fn is_supported_file(path: &Path) -> bool {
         .unwrap_or(false)
 }
 
-pub fn generate_node_key(file_path: &Path, class_name: Option<&str>, function_name: &str) -> String {
+pub fn generate_node_key(
+    file_path: &Path,
+    class_name: Option<&str>,
+    function_name: &str,
+) -> String {
     let mut key = file_path.to_str().unwrap().to_string();
     if let Some(class) = class_name {
         key.push('.');
