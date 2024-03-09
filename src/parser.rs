@@ -4,13 +4,15 @@ use std::fs;
 use std::path::Path;
 use tree_sitter::{Language, Node, Parser};
 
+use crate::indexer::generate_node_key;
+
 extern "C" {
     fn tree_sitter_rust() -> Language;
     fn tree_sitter_python() -> Language;
     // Add more language bindings here
 }
 
-pub fn parse_file(file_path: &Path) -> Vec<Block> {
+pub fn parse_file(file_path: &Path, module_name: &str) -> Vec<Block> {
     let code = fs::read_to_string(file_path).unwrap();
     let language = tree_sitter_language(file_path);
     let mut parser = Parser::new();
@@ -21,6 +23,7 @@ pub fn parse_file(file_path: &Path) -> Vec<Block> {
     let mut non_function_blocks = Vec::new();
     let mut imports = HashMap::new();
     let mut cursor = tree.root_node().walk();
+
     traverse_tree(
         &code,
         &mut cursor,
@@ -28,12 +31,14 @@ pub fn parse_file(file_path: &Path) -> Vec<Block> {
         &mut non_function_blocks,
         language,
         None,
+        module_name,
         &mut imports,
     );
 
     if !non_function_blocks.is_empty() {
         let non_function_block_content = non_function_blocks.join("\n");
         blocks.push(Block::new(
+            String::from("non_function_block"),
             BlockType::NonFunction,
             non_function_block_content,
             None,
@@ -64,6 +69,7 @@ fn traverse_tree(
     non_function_blocks: &mut Vec<String>,
     language: Language,
     class_name: Option<String>,
+    module_name: &str,
     imports: &mut HashMap<String, String>,
 ) {
     let node = cursor.node();
@@ -73,10 +79,7 @@ fn traverse_tree(
         if let Some((module, alias)) = parse_import_statement(code, node, language) {
             imports.insert(alias, module);
         }
-    }
-
-    if is_class_definition(kind, language) {
-        // Extract class name
+    } else if is_class_definition(kind, language) {
         let class_name_node = node.child_by_field_name("name");
         if let Some(class_name_node) = class_name_node {
             let extracted_class_name = class_name_node
@@ -84,7 +87,6 @@ fn traverse_tree(
                 .unwrap()
                 .to_string();
 
-            // Dive into class scope with the class_name
             if cursor.goto_first_child() {
                 loop {
                     traverse_tree(
@@ -94,6 +96,7 @@ fn traverse_tree(
                         non_function_blocks,
                         language,
                         Some(extracted_class_name.clone()),
+                        module_name,
                         imports,
                     );
                     if !cursor.goto_next_sibling() {
@@ -109,15 +112,17 @@ fn traverse_tree(
         let block_type = BlockType::Function;
         let block_content = node.utf8_text(code.as_bytes()).unwrap().to_string();
 
-        // Pass `class_name` which could be Some or None depending on context
+        let node_key = generate_node_key(Path::new(module_name), class_name.as_deref(), &function_name);
+
         let mut block = Block::new(
+            node_key,
             block_type,
             block_content,
             Some(function_name.clone()),
             class_name.clone(),
         );
 
-        block.outgoing_calls = find_calls(code, node, language, imports);
+        block.outgoing_calls = find_calls(code, node, language, module_name, imports);
 
         blocks.push(block);
     } else if !node.is_named() {
@@ -125,7 +130,6 @@ fn traverse_tree(
         non_function_blocks.push(block_content);
     }
 
-    // Recursively traverse the AST
     if cursor.goto_first_child() {
         loop {
             traverse_tree(
@@ -135,6 +139,7 @@ fn traverse_tree(
                 non_function_blocks,
                 language,
                 class_name.clone(),
+                module_name,
                 imports,
             );
             if !cursor.goto_next_sibling() {
@@ -145,7 +150,13 @@ fn traverse_tree(
     }
 }
 
-fn find_calls(code: &str, root: Node, language: Language, imports: &HashMap<String, String>) -> Vec<String> {
+fn find_calls(
+    code: &str,
+    root: Node,
+    language: Language,
+    module_name: &str,
+    imports: &HashMap<String, String>,
+) -> Vec<String> {
     let mut calls = HashSet::new();
     let mut cursor = root.walk();
 
@@ -154,27 +165,37 @@ fn find_calls(code: &str, root: Node, language: Language, imports: &HashMap<Stri
 
         if is_call_expression(node.kind(), language) {
             if let Some(function_name) = get_call_expression_name(code, node, language) {
-                if let Some(module) = imports.get(&function_name) {
-                    calls.insert(format!("{}::{}", module, function_name));
+                let parts: Vec<&str> = function_name.split('.').collect();
+
+                if parts.len() > 1 {
+                    let class_or_module_name = parts[0];
+                    let method_name = parts[1];
+
+                    if let Some(imported_module) = imports.get(class_or_module_name) {
+                        let call_key = generate_node_key(
+                            Path::new(module_name),
+                            None,
+                            &format!("{}.{}", imported_module, method_name),
+                        );
+                        calls.insert(call_key);
+                    } else {
+                        let call_key = generate_node_key(
+                            Path::new(module_name),
+                            Some(class_or_module_name),
+                            method_name,
+                        );
+                        calls.insert(call_key);
+                    }
                 } else {
-                    calls.insert(function_name);
+                    let function_key = generate_node_key(Path::new(module_name), None, &function_name);
+                    calls.insert(function_key);
                 }
             }
         }
 
-        if is_call_expression(node.kind(), language) {
-            if let Some(function_name) = get_call_expression_name(code, node, language) {
-                calls.insert(function_name);
-            }
-        }
-
-        // Try to descend to the first child; if there isn't one, move to the next sibling.
         if !cursor.goto_first_child() {
-            // No child, try moving to the next sibling.
             while !cursor.goto_next_sibling() {
-                // No more siblings, ascend to the parent.
                 if !cursor.goto_parent() {
-                    // If we're back at the root, break out of the loop.
                     return calls.into_iter().collect();
                 }
             }
@@ -184,7 +205,9 @@ fn find_calls(code: &str, root: Node, language: Language, imports: &HashMap<Stri
 
 fn is_import_statement(kind: &str, language: Language) -> bool {
     match language {
-        lang if lang == unsafe { tree_sitter_python() } => kind == "import_statement",
+        lang if lang == unsafe { tree_sitter_python() } => {
+            kind == "import_statement" || kind == "import_from_statement"
+        }
         // Add more language-specific checks here
         _ => false,
     }
@@ -193,18 +216,34 @@ fn is_import_statement(kind: &str, language: Language) -> bool {
 fn parse_import_statement(code: &str, node: Node, language: Language) -> Option<(String, String)> {
     match language {
         lang if lang == unsafe { tree_sitter_python() } => {
-            let module = node
-                .child_by_field_name("name")
-                .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
-                .map(|s| s.to_string())?;
+            if node.kind() == "import_from_statement" {
+                let module = node
+                    .child_by_field_name("module_name")
+                    .and_then(|child| child.child_by_field_name("identifier"))
+                    .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
+                    .map(|s| s.to_string())?;
 
-            let alias = node
-                .child_by_field_name("alias")
-                .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
-                .map(|s| s.to_string())
-                .unwrap_or_else(|| module.split('.').last().unwrap().to_string());
+                let alias = node
+                    .child_by_field_name("name")
+                    .and_then(|child| child.child_by_field_name("identifier"))
+                    .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
+                    .map(|s| s.to_string())?;
 
-            Some((module, alias))
+                Some((module, alias))
+            } else {
+                let module = node
+                    .child_by_field_name("name")
+                    .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
+                    .map(|s| s.to_string())?;
+
+                let alias = node
+                    .child_by_field_name("alias")
+                    .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
+                    .map(|s| s.to_string())
+                    .unwrap_or_else(|| module.split('.').last().unwrap().to_string());
+
+                Some((module, alias))
+            }
         }
         // Add more language-specific parsing here
         _ => None,

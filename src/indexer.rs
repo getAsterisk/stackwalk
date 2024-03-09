@@ -15,7 +15,7 @@ fn is_supported_file(path: &Path) -> bool {
         .unwrap_or(false)
 }
 
-fn generate_node_key(file_path: &Path, class_name: Option<&str>, function_name: &str) -> String {
+pub fn generate_node_key(file_path: &Path, class_name: Option<&str>, function_name: &str) -> String {
     let mut key = file_path.to_str().unwrap().to_string();
     if let Some(class) = class_name {
         key.push('.');
@@ -35,7 +35,8 @@ pub fn index_directory(dir_path: &str) -> (Vec<Block>, CallStack, CallGraph) {
         let path = entry.path();
 
         if path.is_file() && is_supported_file(&path) {
-            let file_blocks = parse_file(&path);
+            let module_name = path.to_str().unwrap();
+            let file_blocks = parse_file(&path, module_name);
             blocks.extend(file_blocks.clone());
 
             for block in &file_blocks {
@@ -56,8 +57,7 @@ pub fn index_directory(dir_path: &str) -> (Vec<Block>, CallStack, CallGraph) {
                         call_stack.add_node(node_key.clone(), node);
 
                         for call in &block.outgoing_calls {
-                            let child_key = generate_node_key(&path, None, call);
-                            call_stack.add_child(&node_key, &child_key);
+                            call_stack.add_child(&node_key, call);
                         }
                     }
                     BlockType::NonFunction => {

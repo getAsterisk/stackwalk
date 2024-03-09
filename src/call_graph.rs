@@ -28,9 +28,10 @@ impl CallGraph {
         graphviz.push_str("  node [shape=box];\n");
 
         for (node_key, node) in &self.nodes {
-            let mut node_label = node.function_name.clone();
+            let file_name = node.file_path.split('/').last().unwrap_or("");
+            let mut node_label = format!("{}::{}", file_name, node.function_name);
             if let Some(class_name) = &node.class_name {
-                node_label = format!("{}::{}", class_name, node_label);
+                node_label = format!("{}::{}", file_name, format!("{}::{}", class_name, node.function_name));
             }
             graphviz.push_str(&format!("  \"{}\" [label=\"{}\"];\n", node_key, node_label));
         }
