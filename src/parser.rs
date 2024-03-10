@@ -174,7 +174,7 @@ fn find_calls(
                 if parts.len() > 1 {
                     // This is for method calls on an object; the part before '.' is treated as an object, not a module.
                     let object_name = parts[0];
-                    let method_name = parts[1];
+                    let method_name = &parts[1..].join(".");
 
                     // If the object name matches an alias from the imports, resolve to the correct module.
                     if let Some(imported_module) = imports.get(object_name) {
