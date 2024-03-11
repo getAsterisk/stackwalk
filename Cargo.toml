@@ -1,3 +1,4 @@
+workspace = { members = ["test-code-base-rust"] }
 [package]
 name = "asterisk"
 version = "0.1.0"
