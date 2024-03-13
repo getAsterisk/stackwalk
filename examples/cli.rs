@@ -1,9 +1,12 @@
+
 use asterisk::indexer::index_directory;
 use serde::Serialize;
 use serde_json::json;
 use std::env;
 use std::fs::File;
 use std::io::Write;
+use std::fs;
+use asterisk::config::Config;
 
 #[derive(Serialize)]
 struct Output {
@@ -12,9 +15,12 @@ struct Output {
 }
 
 fn main() {
+    let toml_str = fs::read_to_string("asterisk.toml").expect("Unable to read file");
+    let config = Config::from_toml(&toml_str).unwrap();
+
     let args: Vec<String> = env::args().collect();
     let dir_path = &args[1];
-    let (blocks, call_stack, call_graph) = index_directory(dir_path);
+    let (blocks, call_stack, call_graph) = index_directory(&config, dir_path);
 
     let output = Output { blocks, call_stack };
 

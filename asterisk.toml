@@ -1,0 +1,30 @@
+[languages]
+  [languages.python]
+    [languages.python.matchers]
+      import_statement = "import_from_statement"
+      [languages.python.matchers.module_name]
+        field_name = "module_name"
+        kind = "dotted_name"
+
+      [languages.python.matchers.object_name]
+        field_name = "name"
+        kind = "dotted_name"
+
+      [languages.python.matchers.alias]
+        field_name = "alias"
+        kind = "identifier"
+
+  [languages.rust]
+    [languages.rust.matchers]
+      import_statement = "use_declaration"
+      [languages.rust.matchers.module_name]
+        field_name = "path"
+        kind = "identifier"
+
+      [languages.rust.matchers.object_name]
+        field_name = "name"
+        kind = "identifier"
+
+      [languages.rust.matchers.alias]
+        field_name = "alias"
+        kind = "identifier"

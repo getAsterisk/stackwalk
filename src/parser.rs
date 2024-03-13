@@ -1,4 +1,6 @@
 use crate::block::{Block, BlockType};
+use crate::config::{Config, Matchers};
+use jwalk::rayon::str::ParallelString;
 use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::path::Path;
@@ -12,7 +14,7 @@ extern "C" {
     // Add more language bindings here
 }
 
-pub fn parse_file(file_path: &Path, module_name: &str) -> Vec<Block> {
+pub fn parse_file(file_path: &Path, module_name: &str, config: &Config) -> Vec<Block> {
     let code = fs::read_to_string(file_path).unwrap();
     let language = tree_sitter_language(file_path);
     let mut parser = Parser::new();
@@ -33,6 +35,7 @@ pub fn parse_file(file_path: &Path, module_name: &str) -> Vec<Block> {
         None,
         module_name,
         &mut imports,
+        &config,
     );
 
     if !non_function_blocks.is_empty() {
@@ -71,12 +74,14 @@ fn traverse_tree(
     class_name: Option<String>,
     module_name: &str,
     imports: &mut HashMap<String, String>,
+    config: &Config,
 ) {
     let node = cursor.node();
     let kind = node.kind();
 
     if is_import_statement(kind, language) {
-        if let Some((module, alias)) = parse_import_statement(code, node, language) {
+        if let Some((module, alias)) = parse_import_statement(code, node, language, config) {
+            println!("Module: {}, Alias: {}", module, alias);
             imports.insert(alias, module);
         }
     } else if is_class_definition(kind, language) {
@@ -98,6 +103,7 @@ fn traverse_tree(
                         Some(extracted_class_name.clone()),
                         module_name,
                         imports,
+                        config,
                     );
                     if !cursor.goto_next_sibling() {
                         break;
@@ -145,6 +151,7 @@ fn traverse_tree(
                 class_name.clone(),
                 module_name,
                 imports,
+                &config,
             );
             if !cursor.goto_next_sibling() {
                 break;
@@ -225,36 +232,144 @@ fn is_import_statement(kind: &str, language: Language) -> bool {
         lang if lang == unsafe { tree_sitter_python() } => {
             kind == "import_statement" || kind == "import_from_statement"
         }
+        lang if lang == unsafe { tree_sitter_rust() } => kind == "use_declaration",
         // Add more language-specific checks here
         _ => false,
     }
 }
 
-fn parse_import_statement(code: &str, node: Node, language: Language) -> Option<(String, String)> {
+fn filter_import_matchers(
+    child: Node,
+    code: &str,
+    matchers: &Matchers,
+) -> (Option<String>, Option<String>, Option<String>) {
+    let module = child
+        .child_by_field_name(&matchers.module_name.field_name)
+        .map(|n| {
+            if n.kind() == matchers.module_name.kind {
+                return n.utf8_text(code.as_bytes()).unwrap_or_default().to_owned();
+            }
+
+            String::default()
+        });
+
+    let name = child
+        .child_by_field_name(&matchers.object_name.field_name)
+        .map(|n| {
+            if n.kind() == matchers.object_name.kind {
+                return n.utf8_text(code.as_bytes()).unwrap_or_default().to_owned();
+            }
+
+            String::default()
+        });
+
+    let alias = child
+        .child_by_field_name(&matchers.alias.field_name)
+        .map(|n| {
+            if n.kind() == matchers.alias.kind {
+                return n.utf8_text(code.as_bytes()).unwrap_or_default().to_owned();
+            }
+
+            String::default()
+        });
+
+    (module, name, alias)
+}
+
+fn parse_import_statement(
+    code: &str,
+    node: Node,
+    language: Language,
+    config: &Config,
+) -> Option<(String, String)> {
+    let mut module_name = String::new();
+    let mut object_name = String::new();
+    let mut alias_name = String::new();
+
     match language {
         lang if lang == unsafe { tree_sitter_python() } => {
-            if node.kind() == "import_from_statement" {
-                // Extract the module name from the 'module_name' field
-                let module = node
-                    .child_by_field_name("module_name")
-                    .map(|n| n.utf8_text(code.as_bytes()).ok())
-                    .flatten()
-                    .unwrap_or_default()
-                    .to_string();
+            let matchers = &config
+            .languages
+            .get("python")
+            .expect("Failed to get Python matchers from config")
+            .matchers;
 
-                // Iterate over the names imported from the module
-                let node_walk = &mut node.walk();
-                let imported_names = node.children_by_field_name("name", node_walk);
-                for imported_name in imported_names {
-                    let alias = imported_name
-                        .utf8_text(code.as_bytes())
-                        .unwrap_or_default()
-                        .to_string();
+            if node.kind() == matchers.import_statement {
+                let result = filter_import_matchers(node, code, matchers);
+                (module_name, object_name, alias_name) = (
+                    result.0.unwrap_or(module_name),
+                    result.1.unwrap_or(object_name),
+                    result.2.unwrap_or(alias_name),
+                );
 
-                    // In this case, we assume that each import statement imports a single name,
-                    // so we return the first found. For handling multiple imports, this approach needs to be adjusted.
-                    return Some((module.clone(), alias));
+                let mut cursor = node.walk();
+                for child in node.named_children(&mut cursor) {
+                    let result = filter_import_matchers(child, code, matchers);
+                    (module_name, object_name, alias_name) = (
+                        result.0.unwrap_or(module_name),
+                        result.1.unwrap_or(object_name),
+                        result.2.unwrap_or(alias_name),
+                    );
+
+                    let mut cursor2 = child.walk();
+                    for child2 in child.named_children(&mut cursor2) {
+                        let result = filter_import_matchers(child2, code, matchers);
+                        (module_name, object_name, alias_name) = (
+                            result.0.unwrap_or(module_name),
+                            result.1.unwrap_or(object_name),
+                            result.2.unwrap_or(alias_name),
+                        );
+                    }
                 }
+
+                println!(
+                    "Module: {}, Object: {}, Alias: {}",
+                    module_name, object_name, alias_name
+                );
+                return Some((module_name, object_name));
+            }
+            None
+        },
+        lang if lang == unsafe { tree_sitter_rust() } => {
+            let matchers = &config
+            .languages
+            .get("rust")
+            .expect("Failed to get Python matchers from config")
+            .matchers;
+
+            if node.kind() == matchers.import_statement {
+                let result = filter_import_matchers(node, code, matchers);
+                (module_name, object_name, alias_name) = (
+                    result.0.unwrap_or(module_name),
+                    result.1.unwrap_or(object_name),
+                    result.2.unwrap_or(alias_name),
+                );
+
+                let mut cursor = node.walk();
+                for child in node.named_children(&mut cursor) {
+                    let result = filter_import_matchers(child, code, matchers);
+                    (module_name, object_name, alias_name) = (
+                        result.0.unwrap_or(module_name),
+                        result.1.unwrap_or(object_name),
+                        result.2.unwrap_or(alias_name),
+                    );
+
+                    let mut cursor2 = child.walk();
+                    for child2 in child.named_children(&mut cursor2) {
+                        let result = filter_import_matchers(child2, code, matchers);
+                        (module_name, object_name, alias_name) = (
+                            result.0.unwrap_or(module_name),
+                            result.1.unwrap_or(object_name),
+                            result.2.unwrap_or(alias_name),
+                        );
+                    }
+                }
+
+                println!(
+                    "Module: {}, Object: {}, Alias: {}",
+                    module_name, object_name, alias_name
+                );
+                return Some((module_name, object_name));
             }
             None
         }
