@@ -1,5 +1,6 @@
 use jwalk::WalkDir;
 use std::path::Path;
+use crate::config::Config;
 
 use crate::block::{Block, BlockType};
 use crate::call_graph::CallGraph;
@@ -30,7 +31,7 @@ pub fn generate_node_key(
     key
 }
 
-pub fn index_directory(dir_path: &str) -> (Vec<Block>, CallStack, CallGraph) {
+pub fn index_directory(config: &Config, dir_path: &str) -> (Vec<Block>, CallStack, CallGraph) {
     let mut blocks = Vec::new();
     let mut call_stack = CallStack::new();
 
@@ -40,7 +41,7 @@ pub fn index_directory(dir_path: &str) -> (Vec<Block>, CallStack, CallGraph) {
 
         if path.is_file() && is_supported_file(&path) {
             let module_name = path.to_str().unwrap();
-            let file_blocks = parse_file(&path, module_name);
+            let file_blocks = parse_file(&path, module_name, &config);
             blocks.extend(file_blocks.clone());
 
             for block in &file_blocks {

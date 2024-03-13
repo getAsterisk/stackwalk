@@ -1,8 +1,10 @@
 mod person;
 mod animal;
 
+use person::Person as Animal;
+
 fn main() {
-    let mut person = person::Person::new("Alice".to_string(), 30);
+    let mut person = Person::new("Alice".to_string(), 30);
     person.introduce();
     person.celebrate_birthday();
 
