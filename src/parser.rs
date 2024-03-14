@@ -1,6 +1,5 @@
 use crate::block::{Block, BlockType};
 use crate::config::{Config, Matchers};
-use jwalk::rayon::str::ParallelString;
 use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::path::Path;
@@ -8,12 +7,24 @@ use tree_sitter::{Language, Node, Parser};
 
 use crate::indexer::generate_node_key;
 
+// C FFI bindings to the tree-sitter language libraries.
 extern "C" {
     fn tree_sitter_rust() -> Language;
     fn tree_sitter_python() -> Language;
     // Add more language bindings here
 }
 
+/// Parses a code file and returns a vector of `Block`s representing the code structure.
+///
+/// # Arguments
+///
+/// * `file_path` - The path of the file to parse.
+/// * `module_name` - The name of the module containing the file.
+/// * `config` - The `Config` instance containing language-specific settings.
+///
+/// # Returns
+///
+/// A vector of `Block`s representing the code structure of the parsed file.
 pub fn parse_file(file_path: &Path, module_name: &str, config: &Config) -> Vec<Block> {
     let code = fs::read_to_string(file_path).unwrap();
     let language = tree_sitter_language(file_path);
@@ -52,6 +63,19 @@ pub fn parse_file(file_path: &Path, module_name: &str, config: &Config) -> Vec<B
     blocks
 }
 
+/// Returns the appropriate tree-sitter `Language` for a given file based on its extension.
+///
+/// # Arguments
+///
+/// * `file_path` - The path of the file to get the language for.
+///
+/// # Returns
+///
+/// The tree-sitter `Language` corresponding to the file's extension.
+///
+/// # Panics
+///
+/// Panics if the file's extension is not supported.
 fn tree_sitter_language(file_path: &Path) -> Language {
     let extension = file_path
         .extension()
@@ -65,6 +89,19 @@ fn tree_sitter_language(file_path: &Path) -> Language {
     }
 }
 
+/// Recursively traverses the AST and extracts code blocks and call information.
+///
+/// # Arguments
+///
+/// * `code` - The code string of the file being parsed.
+/// * `cursor` - A mutable reference to the `TreeCursor` used to navigate the AST.
+/// * `blocks` - A mutable reference to the vector of `Block`s to populate.
+/// * `non_function_blocks` - A mutable reference to the vector of non-function block strings.
+/// * `language` - The tree-sitter `Language` of the file being parsed.
+/// * `class_name` - An optional string representing the name of the current class, if any.
+/// * `module_name` - The name of the module containing the file being parsed.
+/// * `imports` - A mutable reference to the map of import aliases to their full module names.
+/// * `config` - The `Config` instance containing language-specific settings.
 fn traverse_tree(
     code: &str,
     cursor: &mut tree_sitter::TreeCursor,
@@ -161,6 +198,19 @@ fn traverse_tree(
     }
 }
 
+/// Finds the function calls made within a given AST node and returns their keys.
+///
+/// # Arguments
+///
+/// * `code` - The code string of the file being parsed.
+/// * `root` - The AST node to search for function calls.
+/// * `language` - The tree-sitter `Language` of the file being parsed.
+/// * `module_name` - The name of the module containing the file being parsed.
+/// * `imports` - A reference to the map of import aliases to their full module names.
+///
+/// # Returns
+///
+/// A vector of strings representing the keys of the called functions.
 fn find_calls(
     code: &str,
     root: Node,
@@ -227,6 +277,16 @@ fn find_calls(
     }
 }
 
+/// Checks if an AST node represents an import statement in the given language.
+///
+/// # Arguments
+///
+/// * `kind` - The kind (type) of the AST node.
+/// * `language` - The tree-sitter `Language` of the file being parsed.
+///
+/// # Returns
+///
+/// `true` if the node represents an import statement, `false` otherwise.
 fn is_import_statement(kind: &str, language: Language) -> bool {
     match language {
         lang if lang == unsafe { tree_sitter_python() } => {
@@ -238,6 +298,20 @@ fn is_import_statement(kind: &str, language: Language) -> bool {
     }
 }
 
+/// Filters the children of an import statement node using the provided matchers.
+///
+/// # Arguments
+///
+/// * `child` - The child node of the import statement to filter.
+/// * `code` - The code string of the file being parsed.
+/// * `matchers` - The `Matchers` instance containing the field names and node types to match.
+///
+/// # Returns
+///
+/// A tuple containing:
+/// - An optional string representing the module name.
+/// - An optional string representing the imported object name.
+/// - An optional string representing the import alias.
 fn filter_import_matchers(
     child: Node,
     code: &str,
@@ -276,6 +350,18 @@ fn filter_import_matchers(
     (module, name, alias)
 }
 
+/// Parses an import statement node and returns the imported module and alias, if any.
+///
+/// # Arguments
+///
+/// * `code` - The code string of the file being parsed.
+/// * `node` - The import statement AST node to parse.
+/// * `language` - The tree-sitter `Language` of the file being parsed.
+/// * `config` - The `Config` instance containing language-specific settings.
+///
+/// # Returns
+///
+/// An `Option` containing a tuple of the imported module name and alias, if successfully parsed.
 fn parse_import_statement(
     code: &str,
     node: Node,
@@ -289,10 +375,10 @@ fn parse_import_statement(
     match language {
         lang if lang == unsafe { tree_sitter_python() } => {
             let matchers = &config
-            .languages
-            .get("python")
-            .expect("Failed to get Python matchers from config")
-            .matchers;
+                .languages
+                .get("python")
+                .expect("Failed to get Python matchers from config")
+                .matchers;
 
             if node.kind() == matchers.import_statement {
                 let result = filter_import_matchers(node, code, matchers);
@@ -329,13 +415,13 @@ fn parse_import_statement(
                 return Some((module_name, object_name));
             }
             None
-        },
+        }
         lang if lang == unsafe { tree_sitter_rust() } => {
             let matchers = &config
-            .languages
-            .get("rust")
-            .expect("Failed to get Python matchers from config")
-            .matchers;
+                .languages
+                .get("rust")
+                .expect("Failed to get Python matchers from config")
+                .matchers;
 
             if node.kind() == matchers.import_statement {
                 let result = filter_import_matchers(node, code, matchers);
@@ -377,6 +463,16 @@ fn parse_import_statement(
     }
 }
 
+/// Checks if an AST node represents a class definition in the given language.
+///
+/// # Arguments
+///
+/// * `kind` - The kind (type) of the AST node.
+/// * language - The tree-sitter Language of the file being parsed.
+///
+/// # Returns
+///
+/// true if the node represents a class definition, false otherwise.
 fn is_class_definition(kind: &str, language: Language) -> bool {
     match language {
         lang if lang == unsafe { tree_sitter_python() } => kind == "class_definition",
@@ -385,6 +481,16 @@ fn is_class_definition(kind: &str, language: Language) -> bool {
     }
 }
 
+/// Checks if an AST node represents a function definition in the given language.
+///
+/// # Arguments
+///
+/// * kind - The kind (type) of the AST node.
+/// * language - The tree-sitter Language of the file being parsed.
+///
+/// # Returns
+///
+/// true if the node represents a function definition, false otherwise.
 fn is_function_node(kind: &str, language: Language) -> bool {
     match language {
         lang if lang == unsafe { tree_sitter_rust() } => kind == "function_item",
@@ -394,6 +500,17 @@ fn is_function_node(kind: &str, language: Language) -> bool {
     }
 }
 
+/// Extracts the function name from a function definition AST node.
+///
+/// # Arguments
+///
+/// * code - The code string of the file being parsed.
+/// * node - The function definition AST node to extract the name from.
+/// * language - The tree-sitter Language of the file being parsed.
+///
+/// # Returns
+///
+/// An Option containing the function name, if successfully extracted.
 fn get_function_name(code: &str, node: Node, language: Language) -> Option<String> {
     match language {
         lang if lang == unsafe { tree_sitter_rust() } => node
@@ -409,6 +526,16 @@ fn get_function_name(code: &str, node: Node, language: Language) -> Option<Strin
     }
 }
 
+/// Checks if an AST node represents a function call expression in the given language.
+///
+/// # Arguments
+///
+/// * kind - The kind (type) of the AST node.
+/// * language - The tree-sitter Language of the file being parsed.
+///
+/// # Returns
+///
+/// true if the node represents a function call expression, false otherwise.
 fn is_call_expression(kind: &str, language: Language) -> bool {
     match language {
         lang if lang == unsafe { tree_sitter_rust() } => kind == "call_expression",
@@ -418,6 +545,17 @@ fn is_call_expression(kind: &str, language: Language) -> bool {
     }
 }
 
+/// Extracts the called function name from a function call expression AST node.
+///
+/// # Arguments
+///
+/// * code - The code string of the file being parsed.
+/// * node - The function call expression AST node to extract the name from.
+/// * language - The tree-sitter Language of the file being parsed.
+///
+/// # Returns
+///
+/// An Option containing the called function name, if successfully extracted.
 fn get_call_expression_name(code: &str, node: Node, language: Language) -> Option<String> {
     match language {
         lang if lang == unsafe { tree_sitter_rust() } => node

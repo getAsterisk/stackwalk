@@ -1,12 +1,19 @@
 use crate::call_stack::CallStackNode;
 use std::collections::HashMap;
 
+/// Represents a call graph, which is a directed graph of function calls.
+///
+/// The `CallGraph` is used to represent the relationships between functions in a program,
+/// where each node corresponds to a function and each edge represents a function call.
 pub struct CallGraph {
+    /// A map of node keys to their corresponding `CallStackNode`s.
     nodes: HashMap<String, CallStackNode>,
+    /// A vector of edges, where each edge is a tuple of the caller and callee node keys.
     edges: Vec<(String, String)>,
 }
 
 impl CallGraph {
+    /// Creates a new, empty `CallGraph`.
     pub fn new() -> Self {
         CallGraph {
             nodes: HashMap::new(),
@@ -14,14 +21,31 @@ impl CallGraph {
         }
     }
 
+    /// Adds a new node to the call graph.
+    ///
+    /// # Arguments
+    ///
+    /// * `node_key` - The unique key for the node.
+    /// * `node` - The `CallStackNode` to add.
     pub fn add_node(&mut self, node_key: String, node: CallStackNode) {
         self.nodes.insert(node_key, node);
     }
 
+    /// Adds a new edge to the call graph.
+    ///
+    /// # Arguments
+    ///
+    /// * `from` - The key of the caller node.
+    /// * `to` - The key of the callee node.
     pub fn add_edge(&mut self, from: String, to: String) {
         self.edges.push((from, to));
     }
 
+    /// Converts the `CallGraph` to a Graphviz DOT format string.
+    ///
+    /// # Returns
+    ///
+    /// A string containing the Graphviz DOT representation of the call graph.
     pub fn to_graphviz(&self) -> String {
         let mut graphviz = String::from("digraph CallGraph {\n");
         graphviz.push_str("  rankdir=LR;\n");

@@ -1,12 +1,23 @@
-
+use asterisk::config::Config;
+/// Example CLI application demonstrating usage of the asterisk library.
+///
+/// This example:
+/// 1. Reads the asterisk configuration from the `asterisk.toml` file
+/// 2. Indexes the directory specified by the first command-line argument
+/// 3. Generates a JSON output file with the indexed blocks and call stack
+/// 4. Generates a Graphviz DOT file representing the call graph
+///
+/// To run the example, use:
+/// ```
+/// cargo run --example cli -- /path/to/directory/to/index
+/// ```
 use asterisk::indexer::index_directory;
 use serde::Serialize;
 use serde_json::json;
 use std::env;
+use std::fs;
 use std::fs::File;
 use std::io::Write;
-use std::fs;
-use asterisk::config::Config;
 
 #[derive(Serialize)]
 struct Output {

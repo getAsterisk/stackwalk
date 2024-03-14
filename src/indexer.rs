@@ -1,6 +1,6 @@
+use crate::config::Config;
 use jwalk::WalkDir;
 use std::path::Path;
-use crate::config::Config;
 
 use crate::block::{Block, BlockType};
 use crate::call_graph::CallGraph;
@@ -8,6 +8,15 @@ use crate::call_stack::{CallStack, CallStackNode};
 use crate::parser::parse_file;
 use crate::utils::get_supported_extensions;
 
+/// Checks if a file is supported by the indexer based on its extension.
+///
+/// # Arguments
+///
+/// * `path` - The path of the file to check.
+///
+/// # Returns
+///
+/// `true` if the file's extension is in the list of supported extensions, `false` otherwise.
 fn is_supported_file(path: &Path) -> bool {
     let extensions = get_supported_extensions();
     path.extension()
@@ -16,6 +25,17 @@ fn is_supported_file(path: &Path) -> bool {
         .unwrap_or(false)
 }
 
+/// Generates a unique key for a node in the call stack or call graph.
+///
+/// # Arguments
+///
+/// * `file_path` - The path of the file containing the node.
+/// * `class_name` - The name of the class containing the node, if applicable.
+/// * `function_name` - The name of the function corresponding to the node.
+///
+/// # Returns
+///
+/// A string representing the unique key for the node.
 pub fn generate_node_key(
     file_path: &Path,
     class_name: Option<&str>,
@@ -31,6 +51,19 @@ pub fn generate_node_key(
     key
 }
 
+/// Indexes a directory of code files and generates blocks, a call stack, and a call graph.
+///
+/// # Arguments
+///
+/// * `config` - The `Config` instance containing language-specific settings.
+/// * `dir_path` - The path of the directory to index.
+///
+/// # Returns
+///
+/// A tuple containing:
+/// - A vector of `Block`s representing the indexed code blocks.
+/// - A `CallStack` representing the hierarchy of function calls.
+/// - A `CallGraph` representing the relationships between functions.
 pub fn index_directory(config: &Config, dir_path: &str) -> (Vec<Block>, CallStack, CallGraph) {
     let mut blocks = Vec::new();
     let mut call_stack = CallStack::new();
