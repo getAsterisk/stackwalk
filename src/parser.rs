@@ -2,6 +2,7 @@ use crate::block::{Block, BlockType};
 use crate::config::{Config, Matchers};
 use std::collections::{HashMap, HashSet};
 use std::fs;
+use std::io::Cursor;
 use std::path::Path;
 use tree_sitter::{Language, Node, Parser};
 
@@ -118,7 +119,6 @@ fn traverse_tree(
 
     if is_import_statement(kind, language) {
         if let Some((module, alias)) = parse_import_statement(code, node, language, config) {
-            println!("Module: {}, Alias: {}", module, alias);
             imports.insert(alias, module);
         }
     } else if is_class_definition(kind, language) {
@@ -316,7 +316,7 @@ fn filter_import_matchers(
     child: Node,
     code: &str,
     matchers: &Matchers,
-) -> (Option<String>, Option<String>, Option<String>) {
+) -> (Option<String>, Vec<(String, Option<String>)>) {
     let module = child
         .child_by_field_name(&matchers.module_name.field_name)
         .map(|n| {
@@ -327,27 +327,45 @@ fn filter_import_matchers(
             String::default()
         });
 
-    let name = child
-        .child_by_field_name(&matchers.object_name.field_name)
-        .map(|n| {
+    if let Some(alias_node) = child.child_by_field_name(&matchers.alias.field_name) {
+        let mut alias = String::default();
+        let mut object_name = String::default();
+
+        if alias_node.kind() == matchers.alias.kind {
+            alias = alias_node
+                .utf8_text(code.as_bytes())
+                .unwrap_or_default()
+                .to_owned();
+
+            if let Some(object_node) = child.child_by_field_name(&matchers.object_name.field_name) {
+                if object_node.kind() == matchers.object_name.kind {
+                    object_name = object_node
+                        .utf8_text(code.as_bytes())
+                        .unwrap_or_default()
+                        .to_owned();
+                }
+            }
+        }
+
+        return (module, vec![(object_name, Some(alias))]);
+    }
+
+    let mut walker = child.walk();
+    let names = child
+        .children_by_field_name(&matchers.object_name.field_name, &mut walker)
+        .filter_map(|n| {
             if n.kind() == matchers.object_name.kind {
-                return n.utf8_text(code.as_bytes()).unwrap_or_default().to_owned();
+                Some((
+                    n.utf8_text(code.as_bytes()).unwrap_or_default().to_owned(),
+                    None,
+                ))
+            } else {
+                None
             }
+        })
+        .collect::<Vec<(String, Option<String>)>>();
 
-            String::default()
-        });
-
-    let alias = child
-        .child_by_field_name(&matchers.alias.field_name)
-        .map(|n| {
-            if n.kind() == matchers.alias.kind {
-                return n.utf8_text(code.as_bytes()).unwrap_or_default().to_owned();
-            }
-
-            String::default()
-        });
-
-    (module, name, alias)
+    (module, names)
 }
 
 /// Parses an import statement node and returns the imported module and alias, if any.
@@ -381,38 +399,16 @@ fn parse_import_statement(
                 .matchers;
 
             if node.kind() == matchers.import_statement {
-                let result = filter_import_matchers(node, code, matchers);
-                (module_name, object_name, alias_name) = (
-                    result.0.unwrap_or(module_name),
-                    result.1.unwrap_or(object_name),
-                    result.2.unwrap_or(alias_name),
-                );
+                let (mut module_name, mut object_and_aliases)= filter_import_matchers(node, code, matchers);
 
-                let mut cursor = node.walk();
-                for child in node.named_children(&mut cursor) {
-                    let result = filter_import_matchers(child, code, matchers);
-                    (module_name, object_name, alias_name) = (
-                        result.0.unwrap_or(module_name),
-                        result.1.unwrap_or(object_name),
-                        result.2.unwrap_or(alias_name),
-                    );
+                let result = extract_import_tokens_recursively(node, code, matchers);
+                module_name = result.0.or(module_name);
+                object_and_aliases.extend(result.1);
 
-                    let mut cursor2 = child.walk();
-                    for child2 in child.named_children(&mut cursor2) {
-                        let result = filter_import_matchers(child2, code, matchers);
-                        (module_name, object_name, alias_name) = (
-                            result.0.unwrap_or(module_name),
-                            result.1.unwrap_or(object_name),
-                            result.2.unwrap_or(alias_name),
-                        );
-                    }
-                }
+                println!("\n\n\nModule Name: {}", module_name.clone().unwrap_or_default());
+                println!("Objects and Aliases: {:?}", object_and_aliases);
 
-                println!(
-                    "Module: {}, Object: {}, Alias: {}",
-                    module_name, object_name, alias_name
-                );
-                return Some((module_name, object_name));
+                return Some((module_name.unwrap_or_default(), "abc".into()));
             }
             None
         }
@@ -420,47 +416,43 @@ fn parse_import_statement(
             let matchers = &config
                 .languages
                 .get("rust")
-                .expect("Failed to get Python matchers from config")
+                .expect("Failed to get Rust matchers from config")
                 .matchers;
 
             if node.kind() == matchers.import_statement {
-                let result = filter_import_matchers(node, code, matchers);
-                (module_name, object_name, alias_name) = (
-                    result.0.unwrap_or(module_name),
-                    result.1.unwrap_or(object_name),
-                    result.2.unwrap_or(alias_name),
-                );
+                let (mut module_name, mut object_and_aliases)= filter_import_matchers(node, code, matchers);
 
-                let mut cursor = node.walk();
-                for child in node.named_children(&mut cursor) {
-                    let result = filter_import_matchers(child, code, matchers);
-                    (module_name, object_name, alias_name) = (
-                        result.0.unwrap_or(module_name),
-                        result.1.unwrap_or(object_name),
-                        result.2.unwrap_or(alias_name),
-                    );
+                let result = extract_import_tokens_recursively(node, code, matchers);
+                module_name = result.0.or(module_name);
+                object_and_aliases.extend(result.1);
 
-                    let mut cursor2 = child.walk();
-                    for child2 in child.named_children(&mut cursor2) {
-                        let result = filter_import_matchers(child2, code, matchers);
-                        (module_name, object_name, alias_name) = (
-                            result.0.unwrap_or(module_name),
-                            result.1.unwrap_or(object_name),
-                            result.2.unwrap_or(alias_name),
-                        );
-                    }
-                }
+                println!("\n\n\nModule Name: {}", module_name.clone().unwrap_or_default());
+                println!("Objects and Aliases: {:?}", object_and_aliases);
 
-                println!(
-                    "Module: {}, Object: {}, Alias: {}",
-                    module_name, object_name, alias_name
-                );
-                return Some((module_name, object_name));
+                return Some((module_name.unwrap_or_default(), "abc".into()));
             }
             None
         }
         _ => None,
     }
+}
+
+fn extract_import_tokens_recursively(node: Node, code: &str, matchers: &Matchers) -> (Option<String>, Vec<(String, Option<String>)>) {
+    let mut module_name = None;
+    let mut object_and_aliases = Vec::new();
+
+    let mut cursor = node.walk();
+    for child in node.named_children(&mut cursor) {
+        let (child_module_name, child_object_and_aliases) = extract_import_tokens_recursively(child, code, matchers);
+        module_name = child_module_name.or(module_name);
+        object_and_aliases.extend(child_object_and_aliases);
+
+        let (matcher_module_name, matcher_object_and_aliases) = filter_import_matchers(child, code, matchers);
+        module_name = matcher_module_name.or(module_name);
+        object_and_aliases.extend(matcher_object_and_aliases);
+    }
+
+    (module_name, object_and_aliases)
 }
 
 /// Checks if an AST node represents a class definition in the given language.

@@ -1,7 +1,9 @@
 mod person;
 mod animal;
 
-use person::Person as Animal;
+use A::B;
+use A::{B, C};
+use person::{Person as Animal};
 
 fn main() {
     let mut person = Person::new("Alice".to_string(), 30);
