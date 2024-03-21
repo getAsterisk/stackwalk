@@ -4,7 +4,7 @@
 
 Asterisk is a library for parsing and indexing code in various languages. 📚
 
-[![LICENSE](https://img.shields.io/github/license/stitionai/asterisk.svg)](https://github.com/stitionai/asterisk/blob/master/LICENSE)
+[![LICENSE](https://img.shields.io/github/license/stitionai/asterisk.svg?cached)](https://github.com/stitionai/asterisk/blob/master/LICENSE)
 
 ## Table of Contents
 
