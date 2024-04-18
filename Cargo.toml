@@ -1,7 +1,11 @@
 [package]
 name = "asterisk"
 version = "0.1.0"
+authors = ["stition Team <hello@stition.ai>"]
 edition = "2021"
+
+[lib]
+path = "src/lib.rs"
 
 [dependencies]
 jwalk = "0.8.1"
