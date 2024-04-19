@@ -1,0 +1,6 @@
+[submodule "grammars/tree-sitter-typescript"]
+	path = grammars/tree-sitter-typescript
+	url = git@github.com:tree-sitter/tree-sitter-typescript.git
+[submodule "grammars/tree-sitter-javascript"]
+	path = grammars/tree-sitter-javascript
+	url = git@github.com:tree-sitter/tree-sitter-javascript.git
