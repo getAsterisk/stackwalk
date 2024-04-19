@@ -29,3 +29,4 @@ Cargo.lock
 *.dot
 *.json
 *.mermaid
+*call_graph.json

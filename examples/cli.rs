@@ -75,6 +75,12 @@ fn main() {
         mermaid_file_name
     );    
 
+    let json_flow_chart = call_graph.to_json_flowchart();
+    let flow_chart_file_name = format!("{}_call_graph.json", project_name);
+    let mut flow_chart_file =
+        File::create(&flow_chart_file_name).expect("Failed to create Flow Chart file");
+    write!(flow_chart_file, "{}", json_flow_chart).expect("Failed to write to Flow Chart file");
+
     let entry_points = call_graph.get_entry_points();
     if !entry_points.is_empty() {
         for entry_point in entry_points {

@@ -2,6 +2,7 @@ use crate::call_stack::CallStackNode;
 use std::collections::{HashMap, HashSet};
 
 use serde::{Serialize, Deserialize};
+use serde_json::json;
 
 /// Represents a call graph, which is a directed graph of function calls.
 ///
@@ -106,6 +107,40 @@ impl CallGraph {
         }
 
         mermaid
+    }
+
+    /// Converts the `CallGraph` to a JSON formatted string suitable for generating flowcharts.
+    ///
+    /// # Returns
+    ///
+    /// A pretty JSON string representing the call graph with nodes and edges.
+    pub fn to_json_flowchart(&self) -> String {
+        let nodes: Vec<_> = self.nodes.iter().map(|(key, node)| {
+            let file_name = node.file_path.split('/').last().unwrap_or("");
+            let node_label = if let Some(class_name) = &node.class_name {
+                format!("{}::{}::{}", file_name, class_name, node.function_name)
+            } else {
+                format!("{}::{}", file_name, node.function_name)
+            };
+            json!({
+                "id": key,
+                "label": node_label
+            })
+        }).collect();
+
+        let edges: Vec<_> = self.edges.iter().map(|(from, to)| {
+            json!({
+                "from": from,
+                "to": to
+            })
+        }).collect();
+
+        let flowchart = json!({
+            "nodes": nodes,
+            "edges": edges
+        });
+
+        serde_json::to_string_pretty(&flowchart).unwrap()
     }
 
     /// Retrieves a list of potential entry points in the call graph.
