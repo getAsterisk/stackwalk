@@ -118,7 +118,7 @@ fn traverse_tree(
 
     if is_import_statement(kind, language) {
         if let Some((module, alias)) = parse_import_statement(code, node, language, config) {
-            println!("Module: {}, Alias: {}", module, alias);
+            // println!("Module: {}, Alias: {}", module, alias);
             imports.insert(alias, module);
         }
     } else if is_class_definition(kind, language) {
@@ -408,10 +408,10 @@ fn parse_import_statement(
                     }
                 }
 
-                println!(
-                    "Module: {}, Object: {}, Alias: {}",
-                    module_name, object_name, alias_name
-                );
+                // println!(
+                //     "Module: {}, Object: {}, Alias: {}",
+                //     module_name, object_name, alias_name
+                // );
                 return Some((module_name, object_name));
             }
             None
@@ -451,10 +451,10 @@ fn parse_import_statement(
                     }
                 }
 
-                println!(
-                    "Module: {}, Object: {}, Alias: {}",
-                    module_name, object_name, alias_name
-                );
+                // println!(
+                //     "Module: {}, Object: {}, Alias: {}",
+                //     module_name, object_name, alias_name
+                // );
                 return Some((module_name, object_name));
             }
             None
@@ -517,7 +517,7 @@ fn get_function_name(code: &str, node: Node, language: Language) -> Option<Strin
             .child_by_field_name("name")
             .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
             .map(|s| s.to_string()),
-        lang if lang == unsafe { tree_sitter_python() } => node
+        lang if lang == unsafe { tree_sitter_python() } => node             
             .child_by_field_name("name")
             .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
             .map(|s| s.to_string()),
