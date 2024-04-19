@@ -28,3 +28,4 @@ Cargo.lock
 
 *.dot
 *.json
+*.mermaid
