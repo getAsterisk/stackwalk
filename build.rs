@@ -4,6 +4,7 @@ fn main() {
     let dirs: Vec<PathBuf> = [
         &["grammars", "tree-sitter-rust", "src"][..],
         &["grammars", "tree-sitter-python", "src"][..],
+        &["grammars", "tree-sitter-javascript", "src"][..],
     ]
     .iter()
     .map(|path| path.iter().collect::<PathBuf>())

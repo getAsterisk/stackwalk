@@ -11,6 +11,7 @@ use crate::indexer::generate_node_key;
 extern "C" {
     fn tree_sitter_rust() -> Language;
     fn tree_sitter_python() -> Language;
+    fn tree_sitter_javascript() -> Language;
     // Add more language bindings here
 }
 
@@ -84,6 +85,7 @@ fn tree_sitter_language(file_path: &Path) -> Language {
     match extension {
         "rs" => unsafe { tree_sitter_rust() },
         "py" => unsafe { tree_sitter_python() },
+        "js" => unsafe { tree_sitter_javascript() },
         // Add more mappings for other supported languages
         _ => panic!("Unsupported language"),
     }
@@ -118,7 +120,6 @@ fn traverse_tree(
 
     if is_import_statement(kind, language) {
         if let Some((module, alias)) = parse_import_statement(code, node, language, config) {
-            // println!("Module: {}, Alias: {}", module, alias);
             imports.insert(alias, module);
         }
     } else if is_class_definition(kind, language) {
@@ -293,6 +294,7 @@ fn is_import_statement(kind: &str, language: Language) -> bool {
             kind == "import_statement" || kind == "import_from_statement"
         }
         lang if lang == unsafe { tree_sitter_rust() } => kind == "use_declaration",
+        lang if lang == unsafe { tree_sitter_javascript() } => kind == "import_statement",
         // Add more language-specific checks here
         _ => false,
     }
@@ -373,6 +375,54 @@ fn parse_import_statement(
     let mut alias_name = String::new();
 
     match language {
+        lang if lang == unsafe { tree_sitter_javascript() } => {
+            let mut cursor = node.walk();
+            let module_name = node
+                .child_by_field_name("source")
+                .map(|n| {
+                    return n.utf8_text(code.as_bytes()).unwrap_or_default().to_owned();
+                })
+                .unwrap_or_default();
+            let mut imports = String::default();
+
+            for child in node.named_children(&mut cursor) {
+                if child.kind() == "import_clause" {
+                    imports = child
+                        .utf8_text(code.as_bytes())
+                        .unwrap_or_default()
+                        .to_owned();
+                }
+            }
+
+            let mut object_name = String::default();
+
+            if imports.contains("as") {
+                let alias: Vec<String> = imports
+                    .split("as")
+                    .map(|s| {
+                        s.trim() // Trim whitespace
+                            .to_owned()
+                    }) // Convert to owned String
+                    .collect();
+
+                object_name = alias.last().unwrap().to_owned();
+            } else if imports.starts_with("{") {
+                let val: Vec<String> = imports
+                    .trim() // Trim whitespace around the string
+                    .trim_start_matches('{') // Remove the starting '{'
+                    .trim_end_matches('}') // Remove the ending '}'
+                    .split(',') // Split the string by commas
+                    .map(|s| s.trim().to_string()) // Trim whitespace and convert to String
+                    .filter(|s| !s.is_empty()) // Filter out any empty strings
+                    .collect();
+
+                object_name = val.join(", ");
+            }
+
+            println!("Module Name: {}, Object: {}", module_name, object_name);
+
+            return Some((module_name, object_name));
+        }
         lang if lang == unsafe { tree_sitter_python() } => {
             let matchers = &config
                 .languages
@@ -495,6 +545,7 @@ fn is_function_node(kind: &str, language: Language) -> bool {
     match language {
         lang if lang == unsafe { tree_sitter_rust() } => kind == "function_item",
         lang if lang == unsafe { tree_sitter_python() } => kind == "function_definition",
+        lang if lang == unsafe { tree_sitter_javascript() } => kind == "function_declaration",
         // Add more language-specific checks here
         _ => false,
     }
@@ -521,6 +572,14 @@ fn get_function_name(code: &str, node: Node, language: Language) -> Option<Strin
             .child_by_field_name("name")
             .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
             .map(|s| s.to_string()),
+        lang if lang == unsafe { tree_sitter_javascript() } => node
+            .child_by_field_name("name")
+            .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
+            .map(|s| s.to_string()),
+        lang if lang == unsafe { tree_sitter_javascript() } => node
+            .child_by_field_name("name")
+            .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
+            .map(|s| s.to_string()),
         // Add more language-specific checks here
         _ => None,
     }
@@ -540,6 +599,7 @@ fn is_call_expression(kind: &str, language: Language) -> bool {
     match language {
         lang if lang == unsafe { tree_sitter_rust() } => kind == "call_expression",
         lang if lang == unsafe { tree_sitter_python() } => kind == "call",
+        lang if lang == unsafe { tree_sitter_javascript() } => kind == "call_expression",
         // Add more language-specific checks here
         _ => false,
     }
@@ -563,6 +623,10 @@ fn get_call_expression_name(code: &str, node: Node, language: Language) -> Optio
             .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
             .map(|s| s.to_string()),
         lang if lang == unsafe { tree_sitter_python() } => node
+            .child_by_field_name("function")
+            .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
+            .map(|s| s.to_string()),
+        lang if lang == unsafe { tree_sitter_javascript() } => node
             .child_by_field_name("function")
             .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
             .map(|s| s.to_string()),
