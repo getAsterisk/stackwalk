@@ -59,4 +59,13 @@ fn main() {
         "Call graph generated. Graphviz file written to {}",
         graphviz_file_name
     );
+
+    let entry_points = call_graph.get_entry_points();
+    if !entry_points.is_empty() {
+        for entry_point in entry_points {
+            println!("Potential Entry Point: {}", entry_point);
+        }
+    } else {
+        println!("No entry points detected.");
+    }
 }

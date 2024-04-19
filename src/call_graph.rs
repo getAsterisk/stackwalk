@@ -1,5 +1,5 @@
 use crate::call_stack::CallStackNode;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 /// Represents a call graph, which is a directed graph of function calls.
 ///
@@ -70,5 +70,29 @@ impl CallGraph {
 
         graphviz.push('}');
         graphviz
+    }
+
+    /// Retrieves a list of potential entry points in the call graph.
+    ///
+    /// Defines an entry point as a node with no incoming edges and at least one outgoing edge, 
+    /// representing functions that could initiate execution paths.
+    ///
+    /// # Returns
+    ///
+    /// A `Vec<String>` containing the keys of all potential entry point nodes.
+    pub fn get_entry_points(&self) -> Vec<String> {
+        let mut incoming_edges = HashSet::new();
+        let mut candidates = HashSet::new();
+
+        for (from, to) in &self.edges {
+            incoming_edges.insert(to.clone());
+            if !incoming_edges.contains(from) {
+                candidates.insert(from.clone());
+            }
+        }
+
+        candidates.retain(|candidate| !incoming_edges.contains(candidate));
+
+        candidates.into_iter().collect()
     }
 }
