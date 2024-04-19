@@ -2,7 +2,9 @@
 name = "asterisk"
 version = "0.1.0"
 authors = ["stition Team <hello@stition.ai>"]
+description = "Universal language-agnostic AST walking and accurate call stack generation with tree-sitter"
 edition = "2021"
+license = "MIT"
 
 [dependencies]
 jwalk = "0.8.1"
@@ -13,7 +15,7 @@ tree-sitter = "0.20.9"
 toml = "0.8.11"
 
 [build-dependencies]
-cc="*"
+cc = "1.0.94"
 
 [[example]]
 name = "cli"
