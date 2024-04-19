@@ -18,6 +18,7 @@ use std::env;
 use std::fs;
 use std::fs::File;
 use std::io::Write;
+use std::collections::HashSet;
 
 #[derive(Serialize)]
 struct Output {
@@ -32,6 +33,9 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let dir_path = &args[1];
     let (blocks, call_stack, call_graph) = index_directory(&config, dir_path);
+
+    // convert blocks and call_stack to hashset then to vec again
+    let blocks = blocks.into_iter().collect::<HashSet<_>>().into_iter().collect();
 
     let output = Output { blocks, call_stack };
 
@@ -59,6 +63,17 @@ fn main() {
         "Call graph generated. Graphviz file written to {}",
         graphviz_file_name
     );
+
+    let mermaid = call_graph.to_mermaid();
+    let mermaid_file_name = format!("{}_call_graph.mermaid", project_name);
+    let mut mermaid_file =
+        File::create(&mermaid_file_name).expect("Failed to create Mermaid file");
+    write!(mermaid_file, "{}", mermaid).expect("Failed to write to Mermaid file");
+
+    println!(
+        "Call graph generated. Mermaid file written to {}",
+        mermaid_file_name
+    );    
 
     let entry_points = call_graph.get_entry_points();
     if !entry_points.is_empty() {

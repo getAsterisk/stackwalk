@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Represents the type of a code block.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Hash, Eq, PartialEq)]
 pub enum BlockType {
     /// A block that represents a function.
     Function,
@@ -10,7 +10,7 @@ pub enum BlockType {
 }
 
 /// Represents a block of code, which can be a function or a non-function block.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Hash, Eq, PartialEq)]
 pub struct Block {
     /// The unique key for the block.
     pub node_key: String,

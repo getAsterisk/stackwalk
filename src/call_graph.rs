@@ -1,10 +1,13 @@
 use crate::call_stack::CallStackNode;
 use std::collections::{HashMap, HashSet};
 
+use serde::{Serialize, Deserialize};
+
 /// Represents a call graph, which is a directed graph of function calls.
 ///
 /// The `CallGraph` is used to represent the relationships between functions in a program,
 /// where each node corresponds to a function and each edge represents a function call.
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CallGraph {
     /// A map of node keys to their corresponding `CallStackNode`s.
     nodes: HashMap<String, CallStackNode>,
@@ -70,6 +73,39 @@ impl CallGraph {
 
         graphviz.push('}');
         graphviz
+    }
+
+    /// Converts the `CallGraph` to a Mermaid diagram format string.
+    ///
+    /// # Returns
+    ///
+    /// A string containing the Mermaid representation of the call graph.
+    pub fn to_mermaid(&self) -> String {
+        let mut mermaid = String::from("graph TD;\n");
+        for (node_key, node) in &self.nodes {
+            let file_name = node.file_path.split('/').last().unwrap_or("");
+            let mut node_label = format!("{}::{}", file_name, node.function_name);
+            if let Some(class_name) = &node.class_name {
+                node_label = format!(
+                    "{}::{}",
+                    file_name,
+                    format!("{}::{}", class_name, node.function_name)
+                );
+            }
+            // convert spaces into underscores
+            let node_key = node_key.replace(' ', "_");
+            node_label = node_label.replace(' ', "_");
+            mermaid.push_str(&format!("  {}[\"{}\"];\n", node_key, node_label));
+        }
+
+        for (from, to) in &self.edges {
+            // convert spaces into underscores
+            let from = from.replace(' ', "_");
+            let to = to.replace(' ', "_");
+            mermaid.push_str(&format!("  {} --> {};\n", from, to));
+        }
+
+        mermaid
     }
 
     /// Retrieves a list of potential entry points in the call graph.
