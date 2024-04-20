@@ -86,6 +86,7 @@ fn tree_sitter_language(file_path: &Path) -> Language {
         "rs" => unsafe { tree_sitter_rust() },
         "py" => unsafe { tree_sitter_python() },
         "js" => unsafe { tree_sitter_javascript() },
+        "ts" => unsafe { tree_sitter_javascript() },
         // Add more mappings for other supported languages
         _ => panic!("Unsupported language"),
     }

@@ -5,6 +5,7 @@ pub static SUPPORTED_EXTENSIONS: phf::Map<&'static str, &'static str> = phf_map!
     "rs" => "Rust",
     "py" => "Python",
     "js" => "JavaScript",
+    "ts" => "TypeScript",
     // Add more supported extensions and languages
 };
 
