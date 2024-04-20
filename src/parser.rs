@@ -119,8 +119,9 @@ fn traverse_tree(
     let kind = node.kind();
 
     if is_import_statement(kind, language) {
-        if let Some((module, alias)) = parse_import_statement(code, node, language, config) {
-            imports.insert(alias, module);
+        let imports_list = parse_import_statement(code, node, language, config);
+        for (object_name, module_name) in imports_list {
+            imports.insert(object_name, module_name);
         }
     } else if is_class_definition(kind, language) {
         let class_name_node = node.child_by_field_name("name");
@@ -369,7 +370,7 @@ fn parse_import_statement(
     node: Node,
     language: Language,
     config: &Config,
-) -> Option<(String, String)> {
+) -> Vec<(String, String)> {
     let mut module_name = String::new();
     let mut object_name = String::new();
     let mut alias_name = String::new();
@@ -383,21 +384,22 @@ fn parse_import_statement(
                     return n.utf8_text(code.as_bytes()).unwrap_or_default().to_owned();
                 })
                 .unwrap_or_default();
-            let mut imports = String::default();
+
+            let mut import_clause_string = String::default();
 
             for child in node.named_children(&mut cursor) {
                 if child.kind() == "import_clause" {
-                    imports = child
+                    import_clause_string = child
                         .utf8_text(code.as_bytes())
                         .unwrap_or_default()
                         .to_owned();
                 }
             }
 
-            let mut object_name = String::default();
+            let mut imports: Vec<(String, String)> = Vec::new();
 
-            if imports.contains("as") {
-                let alias: Vec<String> = imports
+            if import_clause_string.contains("as") {
+                let alias: Vec<String> = import_clause_string
                     .split("as")
                     .map(|s| {
                         s.trim() // Trim whitespace
@@ -405,9 +407,12 @@ fn parse_import_statement(
                     }) // Convert to owned String
                     .collect();
 
-                object_name = alias.last().unwrap().to_owned();
-            } else if imports.starts_with("{") {
-                let val: Vec<String> = imports
+                imports.push((
+                    module_name.clone(),
+                    alias.last().unwrap_or(&"".to_owned()).to_owned(),
+                ));
+            } else if import_clause_string.starts_with("{") {
+                let val: Vec<String> = import_clause_string
                     .trim() // Trim whitespace around the string
                     .trim_start_matches('{') // Remove the starting '{'
                     .trim_end_matches('}') // Remove the ending '}'
@@ -416,12 +421,22 @@ fn parse_import_statement(
                     .filter(|s| !s.is_empty()) // Filter out any empty strings
                     .collect();
 
-                object_name = val.join(", ");
+                imports = val
+                    .iter()
+                    .map(|num| (module_name.clone(), num.clone()))
+                    .collect();
             }
 
-            println!("Module Name: {}, Object: {}", module_name, object_name);
+            println!(
+                "{}",
+                imports
+                    .iter()
+                    .map(|(key, value)| format!("({}, {})", key, value))
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            );
 
-            return Some((module_name, object_name));
+            return imports;
         }
         lang if lang == unsafe { tree_sitter_python() } => {
             let matchers = &config
@@ -458,13 +473,14 @@ fn parse_import_statement(
                     }
                 }
 
-                // println!(
-                //     "Module: {}, Object: {}, Alias: {}",
-                //     module_name, object_name, alias_name
-                // );
-                return Some((module_name, object_name));
+                println!(
+                    "Module: {}, Object: {}, Alias: {}",
+                    module_name, object_name, alias_name
+                );
+
+                return vec![(module_name, object_name)];
             }
-            None
+            vec![]
         }
         lang if lang == unsafe { tree_sitter_rust() } => {
             let matchers = &config
@@ -501,15 +517,15 @@ fn parse_import_statement(
                     }
                 }
 
-                // println!(
-                //     "Module: {}, Object: {}, Alias: {}",
-                //     module_name, object_name, alias_name
-                // );
-                return Some((module_name, object_name));
+                println!(
+                    "Module: {}, Object: {}, Alias: {}",
+                    module_name, object_name, alias_name
+                );
+                return vec![(module_name, object_name)];
             }
-            None
+            vec![]
         }
-        _ => None,
+        _ => vec![],
     }
 }
 
