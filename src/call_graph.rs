@@ -155,14 +155,18 @@ impl CallGraph {
         let mut incoming_edges = HashSet::new();
         let mut candidates = HashSet::new();
 
-        for (from, to) in &self.edges {
+        for (_, to) in &self.edges {
             incoming_edges.insert(to.clone());
-            if !incoming_edges.contains(from) {
-                candidates.insert(from.clone());
-            }
         }
 
-        candidates.retain(|candidate| !incoming_edges.contains(candidate));
+        // Detecting only 'main' functions or equivalents as entry points
+        for (node_key, node) in &self.nodes {
+            if node.function_name == "main" && !incoming_edges.contains(node_key) {
+                candidates.insert(node_key.clone());
+            } else if !incoming_edges.contains(node_key) {
+                candidates.insert(node_key.clone());
+            }
+        }
 
         candidates.into_iter().collect()
     }

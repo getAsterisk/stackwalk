@@ -174,7 +174,11 @@ fn traverse_tree(
 
         block.outgoing_calls = find_calls(code, node, language, module_name, imports);
 
-        blocks.push(block);
+        // Avoid double pass function addition without class context
+        // Probably, need a better way to do this
+        if !blocks.iter().any(|b| b.function_name == Some(function_name.clone()) && b.class_name.is_some()) {
+            blocks.push(block);
+        }
     } else if !node.is_named() {
         let block_content = node.utf8_text(code.as_bytes()).unwrap().to_string();
         non_function_blocks.push(block_content);
