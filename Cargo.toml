@@ -1,5 +1,5 @@
 [package]
-name = "asterisk"
+name = "stackwalk"
 version = "0.1.0"
 authors = ["stition Team <hello@stition.ai>"]
 description = "Universal language-agnostic AST walking and accurate call stack generation with tree-sitter"
