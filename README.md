@@ -1,10 +1,10 @@
-<img src=".assets/asterisk-logo.png" alt="asterisk logo" width="250" align="right">
+<img src=".assets/stackwalk-logo.png" alt="stackwalk logo" width="250" align="right">
 
-# `asterisk` 🌟 
+# `stackwalk` 🌟 
 
-Asterisk is a library for parsing and indexing code in various languages. 📚
+StackWalk is a library for parsing and indexing code in various languages. 📚
 
-[![LICENSE](https://img.shields.io/github/license/stitionai/asterisk.svg?cached)](https://github.com/stitionai/asterisk/blob/master/LICENSE)
+[![LICENSE](https://img.shields.io/github/license/stitionai/stackwalk.svg?cached)](https://github.com/stitionai/stackwalk/blob/master/LICENSE)
 
 ## Table of Contents
 
@@ -28,21 +28,21 @@ Asterisk is a library for parsing and indexing code in various languages. 📚
 
 ## Installation
 
-Add `asterisk` as a dependency in your `Cargo.toml` file:
+Add `stackwalk` as a dependency in your `Cargo.toml` file:
 
 ```toml
 [dependencies]
-asterisk = "0.1.0"
+stackwalk = "0.1.0"
 ```
 
 ## Usage
 
 ```rust
-use asterisk::config::Config;
-use asterisk::indexer::index_directory;
+use stackwalk::config::Config;
+use stackwalk::indexer::index_directory;
 
 fn main() {
-    let toml_str = fs::read_to_string("asterisk.toml").expect("Unable to read file");
+    let toml_str = fs::read_to_string("stackwalk.toml").expect("Unable to read file");
     let config = Config::from_toml(&toml_str).unwrap();
 
     let dir_path = "path/to/directory";
@@ -55,7 +55,7 @@ fn main() {
 
 ## Configuration
 
-Asterisk uses a TOML configuration file to specify language-specific settings. Here's an example configuration:
+StackWalk uses a TOML configuration file to specify language-specific settings. Here's an example configuration:
 
 ```toml
 [languages]
@@ -75,8 +75,8 @@ Asterisk uses a TOML configuration file to specify language-specific settings. H
 To build the project from source:
 
 ```bash
-$ git clone https://github.com/stitionai/asterisk.git
-$ cd asterisk/
+$ git clone https://github.com/stitionai/stackwalk.git
+$ cd stackwalk/
 $ cargo build --release
 ```
 
@@ -91,7 +91,7 @@ Ways to contribute:
 
 ## License
 
-Licensed under the MIT License, see <a href="https://github.com/stitionai/asterisk/blob/master/LICENSE">LICENSE</a> for more information.
+Licensed under the MIT License, see <a href="https://github.com/stitionai/stackwalk/blob/master/LICENSE">LICENSE</a> for more information.
 
 ## Liked the project?
 
