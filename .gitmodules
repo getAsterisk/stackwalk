@@ -4,3 +4,6 @@
 [submodule "grammars/tree-sitter-javascript"]
 	path = grammars/tree-sitter-javascript
 	url = git@github.com:tree-sitter/tree-sitter-javascript.git
+[submodule "grammars/tree-sitter-go"]
+	path = grammars/tree-sitter-go
+	url = git@github.com:tree-sitter/tree-sitter-go.git

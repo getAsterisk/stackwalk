@@ -5,6 +5,7 @@ fn main() {
         &["grammars", "tree-sitter-rust", "src"][..],
         &["grammars", "tree-sitter-python", "src"][..],
         &["grammars", "tree-sitter-javascript", "src"][..],
+        &["grammars", "tree-sitter-go", "src"][..],
     ]
     .iter()
     .map(|path| path.iter().collect::<PathBuf>())
