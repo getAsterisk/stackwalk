@@ -12,6 +12,7 @@ extern "C" {
     fn tree_sitter_rust() -> Language;
     fn tree_sitter_python() -> Language;
     fn tree_sitter_javascript() -> Language;
+    fn tree_sitter_go() -> Language;
     // Add more language bindings here
 }
 
@@ -87,6 +88,7 @@ fn tree_sitter_language(file_path: &Path) -> Language {
         "py" => unsafe { tree_sitter_python() },
         "js" => unsafe { tree_sitter_javascript() },
         "ts" => unsafe { tree_sitter_javascript() },
+        "go" => unsafe { tree_sitter_go() },
         // Add more mappings for other supported languages
         _ => panic!("Unsupported language"),
     }
@@ -301,6 +303,7 @@ fn is_import_statement(kind: &str, language: Language) -> bool {
         }
         lang if lang == unsafe { tree_sitter_rust() } => kind == "use_declaration",
         lang if lang == unsafe { tree_sitter_javascript() } => kind == "import_statement",
+        lang if lang == unsafe { tree_sitter_go() } => kind == "package_clause",
         // Add more language-specific checks here
         _ => false,
     }
@@ -530,6 +533,50 @@ fn parse_import_statement(
             }
             vec![]
         }
+        lang if lang == unsafe { tree_sitter_go() } => {
+            let matchers = &config
+                .languages
+                .get("go")
+                .expect("Failed to get Go matchers from config")
+                .matchers;
+
+            if node.kind() == matchers.import_statement {
+                let result = filter_import_matchers(node, code, matchers);
+                (module_name, object_name, alias_name) = (
+                    result.0.unwrap_or(module_name),
+                    result.1.unwrap_or(object_name),
+                    result.2.unwrap_or(alias_name),
+                );
+
+                let mut cursor = node.walk();
+                for child in node.named_children(&mut cursor) {
+                    let result = filter_import_matchers(child, code, matchers);
+                    (module_name, object_name, alias_name) = (
+                        result.0.unwrap_or(module_name),
+                        result.1.unwrap_or(object_name),
+                        result.2.unwrap_or(alias_name),
+                    );
+
+                    let mut cursor2 = child.walk();
+                    for child2 in child.named_children(&mut cursor2) {
+                        let result = filter_import_matchers(child2, code, matchers);
+                        (module_name, object_name, alias_name) = (
+                            result.0.unwrap_or(module_name),
+                            result.1.unwrap_or(object_name),
+                            result.2.unwrap_or(alias_name),
+                        );
+                    }
+                }
+
+                 println!(
+                    "Module: {}, Object: {}, Alias: {}",
+                    module_name, object_name, alias_name
+                );
+                return vec![(module_name, object_name)];
+            }
+    
+            vec![]
+        }
         _ => vec![],
     }
 }
@@ -567,6 +614,8 @@ fn is_function_node(kind: &str, language: Language) -> bool {
         lang if lang == unsafe { tree_sitter_rust() } => kind == "function_item",
         lang if lang == unsafe { tree_sitter_python() } => kind == "function_definition",
         lang if lang == unsafe { tree_sitter_javascript() } => kind == "function_declaration",
+        lang if lang == unsafe { tree_sitter_go() } => kind ==
+        "function_declaration",
         // Add more language-specific checks here
         _ => false,
     }
@@ -601,6 +650,11 @@ fn get_function_name(code: &str, node: Node, language: Language) -> Option<Strin
             .child_by_field_name("name")
             .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
             .map(|s| s.to_string()),
+        lang if lang == unsafe { tree_sitter_go() } => node
+            .child_by_field_name("name")
+            .and_then(|child| Some(child.utf8_text(code.as_bytes()).
+            unwrap()))
+            .map(|s| s.to_string()),
         // Add more language-specific checks here
         _ => None,
     }
@@ -621,6 +675,8 @@ fn is_call_expression(kind: &str, language: Language) -> bool {
         lang if lang == unsafe { tree_sitter_rust() } => kind == "call_expression",
         lang if lang == unsafe { tree_sitter_python() } => kind == "call",
         lang if lang == unsafe { tree_sitter_javascript() } => kind == "call_expression",
+        lang if lang == unsafe { tree_sitter_go() } => kind ==
+        "call_expression",
         // Add more language-specific checks here
         _ => false,
     }
@@ -650,6 +706,11 @@ fn get_call_expression_name(code: &str, node: Node, language: Language) -> Optio
         lang if lang == unsafe { tree_sitter_javascript() } => node
             .child_by_field_name("function")
             .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
+            .map(|s| s.to_string()),
+        lang if lang == unsafe { tree_sitter_go() } => node
+            .child_by_field_name("function")
+            .and_then(|child| Some(child.utf8_text(code.as_bytes()).
+            unwrap()))
             .map(|s| s.to_string()),
         // Add more language-specific checks here
         _ => None,
