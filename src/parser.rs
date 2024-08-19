@@ -178,7 +178,10 @@ fn traverse_tree(
 
         // Avoid double pass function addition without class context
         // Probably, need a better way to do this
-        if !blocks.iter().any(|b| b.function_name == Some(function_name.clone()) && b.class_name.is_some()) {
+        if !blocks
+            .iter()
+            .any(|b| b.function_name == Some(function_name.clone()) && b.class_name.is_some())
+        {
             blocks.push(block);
         }
     } else if !node.is_named() {
@@ -568,13 +571,13 @@ fn parse_import_statement(
                     }
                 }
 
-                 println!(
+                println!(
                     "Module: {}, Object: {}, Alias: {}",
                     module_name, object_name, alias_name
                 );
                 return vec![(module_name, object_name)];
             }
-    
+
             vec![]
         }
         _ => vec![],
@@ -614,8 +617,7 @@ fn is_function_node(kind: &str, language: Language) -> bool {
         lang if lang == unsafe { tree_sitter_rust() } => kind == "function_item",
         lang if lang == unsafe { tree_sitter_python() } => kind == "function_definition",
         lang if lang == unsafe { tree_sitter_javascript() } => kind == "function_declaration",
-        lang if lang == unsafe { tree_sitter_go() } => kind ==
-        "function_declaration",
+        lang if lang == unsafe { tree_sitter_go() } => kind == "function_declaration",
         // Add more language-specific checks here
         _ => false,
     }
@@ -638,7 +640,7 @@ fn get_function_name(code: &str, node: Node, language: Language) -> Option<Strin
             .child_by_field_name("name")
             .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
             .map(|s| s.to_string()),
-        lang if lang == unsafe { tree_sitter_python() } => node             
+        lang if lang == unsafe { tree_sitter_python() } => node
             .child_by_field_name("name")
             .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
             .map(|s| s.to_string()),
@@ -652,8 +654,7 @@ fn get_function_name(code: &str, node: Node, language: Language) -> Option<Strin
             .map(|s| s.to_string()),
         lang if lang == unsafe { tree_sitter_go() } => node
             .child_by_field_name("name")
-            .and_then(|child| Some(child.utf8_text(code.as_bytes()).
-            unwrap()))
+            .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
             .map(|s| s.to_string()),
         // Add more language-specific checks here
         _ => None,
@@ -675,8 +676,7 @@ fn is_call_expression(kind: &str, language: Language) -> bool {
         lang if lang == unsafe { tree_sitter_rust() } => kind == "call_expression",
         lang if lang == unsafe { tree_sitter_python() } => kind == "call",
         lang if lang == unsafe { tree_sitter_javascript() } => kind == "call_expression",
-        lang if lang == unsafe { tree_sitter_go() } => kind ==
-        "call_expression",
+        lang if lang == unsafe { tree_sitter_go() } => kind == "call_expression",
         // Add more language-specific checks here
         _ => false,
     }
@@ -709,8 +709,7 @@ fn get_call_expression_name(code: &str, node: Node, language: Language) -> Optio
             .map(|s| s.to_string()),
         lang if lang == unsafe { tree_sitter_go() } => node
             .child_by_field_name("function")
-            .and_then(|child| Some(child.utf8_text(code.as_bytes()).
-            unwrap()))
+            .and_then(|child| Some(child.utf8_text(code.as_bytes()).unwrap()))
             .map(|s| s.to_string()),
         // Add more language-specific checks here
         _ => None,
